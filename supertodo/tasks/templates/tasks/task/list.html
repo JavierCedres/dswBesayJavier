@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "header.html" with subtitle="List" %}
+	<a href="{% url 'tasks:add-task' %}">Crear Tarea</a>
+    <ul>
+        {% for task in tasks %}
+            <a href="{% url 'tasks:task-detail' task.slug %}"><li>{{ task }}</li></a>
+            {% if task.completed %}
+                <a href="{% url 'tasks:complete-task' task.slug %}">Descompletar</a>
+            {% else %}
+                <a href="{% url 'tasks:complete-task' task.slug %}">Completar</a>
+            {% endif %}
+            <a href="{% url 'tasks:delete-task' task.slug %}">Eliminar</a>
+        {% empty %}
+            <li>No hay tareas.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
