@@ -25,7 +25,8 @@ def task_detail(request, task_slug):
 
 
 def completed_tasks(request):
-    return render(request, 'tasks/task/completed.html')
+    task_completed = Task.objects.filter(completed=True)
+    return render(request, 'tasks/task/completed.html', dict(tasks=task_completed))
 
 
 def pending_tasks(request):
@@ -51,5 +52,5 @@ def edit_task(request, task_slug):
         task = form.save(commit=False)
         task.slug = slugify(task.name)
         task.save()
-        return redirect('')
+        return redirect('tasks:task-detail', task_slug)
     return render(request, 'tasks/task/edit.html', dict(form=form, task=task))

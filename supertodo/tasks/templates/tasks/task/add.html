@@ -1,5 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "header.html" with subtitle="Añadir Tarea" %}
+<br>
 <form method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Enviar">
 </form>
+{% endblock %}
