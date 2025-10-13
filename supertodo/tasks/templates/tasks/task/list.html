@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% include "header.html" with subtitle="List" %}
+{% include "header.html" with subtitle="Todas las tareas" %}
 	<a href="{% url 'tasks:add-task' %}">Crear Tarea</a>
     <ul>
         {% for task in tasks %}
