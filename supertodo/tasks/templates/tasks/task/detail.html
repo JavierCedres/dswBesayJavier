@@ -7,5 +7,6 @@
         <p>Pendiente</p>
     {% endif %}
     {{task.description}}
-    <a href="{% url 'tasks:task-list'%}"><li>Volver</li></a>
+    <br>
+    <a href="{% url 'tasks:task-list'%}">Volver</a>
 {% endblock %}
