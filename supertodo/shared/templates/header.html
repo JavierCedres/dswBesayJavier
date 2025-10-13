@@ -1,3 +1,7 @@
 <div class="header">
     <h2>{{ subtitle }}</h1>
+    <a href="{% url 'tasks:task-list' %}">Todas las Tareas</a>
+    <a href="{% url 'tasks:completed-tasks' %}">Tareas Completadas</a>
+    <a href="{% url 'tasks:pending-tasks' %}">Tareas Pendientes</a>
+    <a href="{% url 'tasks:add-task' %}">Crear Tarea</a>
 </div>
