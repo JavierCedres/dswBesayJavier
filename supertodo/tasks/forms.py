@@ -7,3 +7,9 @@ class AddTaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ('name', 'description')
+
+
+class EditTaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ('name', 'description')

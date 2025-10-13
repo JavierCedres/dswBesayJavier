@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.utils.text import slugify
 
-from .forms import AddTaskForm
+from .forms import AddTaskForm, EditTaskForm
 from .models import Task
 
 
@@ -43,3 +43,13 @@ def toggle_status_task(request, task_slug):
 def delete_task(request, task_slug):
     Task.objects.get(slug=task_slug).delete()
     return redirect('tasks:task-list')
+
+
+def edit_task(request, task_slug):
+    task = Task.objects.get(slug=task_slug)
+    if (form := EditTaskForm(request.POST or None, instance=task)).is_valid():
+        task = form.save(commit=False)
+        task.slug = slugify(task.name)
+        task.save()
+        return redirect('')
+    return render(request, 'tasks/task/edit.html', dict(form=form, task=task))
