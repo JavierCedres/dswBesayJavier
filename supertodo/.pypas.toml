@@ -9,3 +9,4 @@ bundle = [
     "justfile",
     "pytest.ini",
 ]
+test_cmd = "uv run pytest -s"

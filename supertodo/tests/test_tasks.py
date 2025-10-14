@@ -1,3 +1,5 @@
+import re
+
 import conftest
 import pytest
 from django.test import Client
@@ -224,12 +226,13 @@ def test_edit_task_page_contains_form_with_task_data(client: Client, task: Task)
     url = conftest.TASK_EDIT_URL.format(task_slug=task.slug)
     response = client.get(url)
     assert response.status_code == 200
-    assertContains(response, '<form')
-    assertContains(response, 'name="name"')
-    assertContains(response, f'value="{task.name}"')
-    assertContains(response, 'name="description"')
-    assertContains(response, f'>{task.description}</textarea>')
-    assertContains(response, 'type="submit"')
+    content = response.content.decode('utf-8')
+    assert re.search(r'<\s*form', content)
+    assert re.search(r'name="name"', content)
+    assert re.search(rf'value="\s*{task.name}\s*"', content)
+    assert re.search(r'name="description"', content)
+    assert re.search(rf'>\s*{task.description}\s*</textarea>', content)
+    assert re.search(r'type="submit"', content)
 
 
 @pytest.mark.django_db

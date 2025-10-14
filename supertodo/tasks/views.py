@@ -38,7 +38,8 @@ def toggle_status_task(request, task_slug):
     task = Task.objects.get(slug=task_slug)
     task.completed = not task.completed
     task.save()
-    return redirect(request.META['HTTP_REFERER'])
+    # return redirect(request.META['HTTP_REFERER'])
+    return redirect('tasks:task-list')
 
 
 def delete_task(request, task_slug):
@@ -52,5 +53,5 @@ def edit_task(request, task_slug):
         task = form.save(commit=False)
         task.slug = slugify(task.name)
         task.save()
-        return redirect('tasks:task-detail', task_slug)
+        return redirect('tasks:task-detail', task.slug)
     return render(request, 'tasks/task/edit.html', dict(form=form, task=task))
