@@ -1,7 +1,7 @@
 <div class="list">
     {% for task in tasks %}
         <div class="task">
-            <a class="no-decoration" href="{% url 'tasks:task-detail' task.slug %}">{{ task }}</a>
+            <a class="no-decoration animate" href="{% url 'tasks:task-detail' task.slug %}">{{ task }}</a>
             <div>
                 {% if task.completed %}
                 <a class="no-decoration" href="{% url 'tasks:complete-task' task.slug %}">✅</a>

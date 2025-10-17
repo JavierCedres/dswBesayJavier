@@ -20,6 +20,10 @@ form * {
   margin-top: 5px;
   margin-bottom: 2px;
 }
+.form {
+  margin: auto;
+}
+
 form div input#id_name {
   margin-left: 10%;
   margin-top: 5px;
@@ -47,6 +51,21 @@ form div input#id_name {
   border-radius: 20px;
 }
 
+.detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid black;
+  width: 300px;
+  margin: auto;
+  padding: 15px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: white;
+  box-shadow: 1px, 10px, 10px black;
+}
+
 .task {
   margin-bottom: 10px;
   display: flex;
@@ -61,4 +80,8 @@ form div input#id_name {
 .no-decoration {
   color: black;
   text-decoration: none;
+}
+.animate:hover {
+  font-size: 15px;
+  color: brown;
 }

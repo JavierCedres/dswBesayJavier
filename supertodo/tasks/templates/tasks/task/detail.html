@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content%}
-    {{task}}
+<div class="detail">
+    <p>Nombre: {{task}}</p>
     {% if task.completed %}
-        <p>Completada</p>
+        <p>Estado: Completada</p>
     {% else %}
-        <p>Pendiente</p>
+        <p>Estado: Pendiente</p>
     {% endif %}
-    {{task.description}}
-    <br>
-    <a href="{% url 'tasks:task-list'%}">Volver</a>
+    <p>Descripción: {{task.description}}</p>
+</div>
+<a href="{% url 'tasks:task-list'%}">Volver</a>
 {% endblock %}
