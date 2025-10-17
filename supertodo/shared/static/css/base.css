@@ -105,5 +105,6 @@ form div input#id_name {
 
 .button:hover {
   background: #b8b892;
-  padding: 12px;
+  transition: ease-in 0.1s;
+  font-size: 17px;
 }
