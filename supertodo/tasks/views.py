@@ -38,7 +38,6 @@ def toggle_status_task(request, task_slug):
     task = Task.objects.get(slug=task_slug)
     task.completed = not task.completed
     task.save()
-    # return redirect(request.META['HTTP_REFERER'])
     return redirect('tasks:task-list')
 
 

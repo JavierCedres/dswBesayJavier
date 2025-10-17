@@ -2,24 +2,30 @@ body {
   margin: 5%;
   background-color: beige;
 }
+
 h1 {
   font-size: 40px;
   color: red;
 }
+
 div {
   color: black;
 }
+
 form {
   margin-right: 70%;
 }
+
 form div {
   border: 1px black solid;
 }
+
 form * {
   margin-left: 1%;
   margin-top: 5px;
   margin-bottom: 2px;
 }
+
 .form {
   margin: auto;
 }
@@ -89,6 +95,7 @@ form div input#id_name {
   color: black;
   text-decoration: none;
 }
+
 .animate:hover {
   font-size: 15px;
   color: brown;
