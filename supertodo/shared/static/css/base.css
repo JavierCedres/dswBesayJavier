@@ -40,6 +40,14 @@ form div input#id_name {
   margin-bottom: 30px;
 }
 
+.title {
+  font-size: 60px;
+  background: linear-gradient(to right, #fa4261, #f39762, #d5aa10);
+  background-size: cover;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .list {
   display: flex;
   flex-direction: column;
@@ -63,7 +71,7 @@ form div input#id_name {
   text-align: center;
   margin-bottom: 20px;
   background-color: white;
-  box-shadow: 1px, 10px, 10px black;
+  box-shadow: 4px 4px 15px;
 }
 
 .task {
@@ -84,4 +92,18 @@ form div input#id_name {
 .animate:hover {
   font-size: 15px;
   color: brown;
+}
+
+.button {
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+  background: #e9e9bf;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.button:hover {
+  background: #b8b892;
+  padding: 12px;
 }
