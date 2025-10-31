@@ -1,8 +1,8 @@
 AUTHOR = 'JavierBesay'
 SITENAME = 'Kahoot-Mammooth'
-SITEURL = ""
+SITEURL = ''
 
-PATH = "content"
+PATH = 'content'
 
 TIMEZONE = 'Europe/London'
 
@@ -14,19 +14,27 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
+DISPLAY_PAGES_ON_MENU = False
+DISPLAY_CATEGORIES_ON_MENU = False
+DATE_FORMAT = ''
+ARTICLE_PATHS = []
+ARCHIVES_SAVE_AS = None
+AUTHORS_SAVE_AS = None
+CATEGORIES_SAVE_AS = None
+TAGS_SAVE_AS = None
 
 # Blogroll
 LINKS = (
-    ("Pelican", "https://getpelican.com/"),
-    ("Python.org", "https://www.python.org/"),
-    ("Jinja2", "https://palletsprojects.com/p/jinja/"),
-    ("You can modify those links in your config file", "#"),
+    ('Pelican', 'https://getpelican.com/'),
+    ('Python.org', 'https://www.python.org/'),
+    ('Jinja2', 'https://palletsprojects.com/p/jinja/'),
+    ('You can modify those links in your config file', '#'),
 )
 
 # Social widget
 SOCIAL = (
-    ("You can add links in your config file", "#"),
-    ("Another social link", "#"),
+    ('You can add links in your config file', '#'),
+    ('Another social link', '#'),
 )
 
 DEFAULT_PAGINATION = False
