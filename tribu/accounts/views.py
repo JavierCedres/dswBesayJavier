@@ -2,9 +2,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from users.models import Profile
 
 from .forms import LoginForm, SignupForm
-from .models import Profile
 
 
 def user_login(request):
@@ -18,12 +18,9 @@ def user_login(request):
             password = form.cleaned_data['password']
             if user := authenticate(request, username=username, password=password):
                 login(request, user)
-
                 return redirect(request.GET.get('next', FALLBACK_REDIRECT))
-
             else:
                 form.add_error(None, 'Incorrect username or password.')
-
     else:
         form = LoginForm()
     return render(
@@ -36,7 +33,6 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-
     return redirect('index')
 
 
@@ -45,14 +41,8 @@ def user_signup(request):
         if (form := SignupForm(request.POST)).is_valid():
             user = form.save()
             Profile.objects.create(bio='', user=user)
-
             login(request, user)
-
             return redirect('index')
     else:
         form = SignupForm()
     return render(request, 'accounts/signup.html', dict(form=form))
-
-
-def profile(request):
-    return render({{request.user.profile}})
