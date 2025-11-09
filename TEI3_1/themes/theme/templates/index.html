@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h2 class="categoryTitle">Cuestionarios Recomendados<img src="{{ SITEURL }}/theme/icons/arrowRight.svg" /></h2>
+	<div class="quizContainer">
+		{% for q in articles if q.category == 'recomendados' %}
+			<div class="quiz">
+				<a href="{{ q.url }}"><img class="quizImg" src="{{ SITEURL }}/theme/imgs/{{ q.metadata.image }}"></a>
+				<div class="quizContent">
+					<h3>{{ q.title }}</h3>
+					<p>{{ q.metadata.description }}</p>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+	<h2 class="categoryTitle">Cuestionarios en Tendencia<img src="{{ SITEURL }}/theme/icons/arrowRight.svg" /></h2>
+	<div class="quizContainer">
+		{% for q in articles if q.category == 'tendencia' %}
+			<div class="quiz">
+				<a href="{{ q.url }}"><img class="quizImg" src="{{ SITEURL }}/theme/imgs/{{ q.metadata.image }}"></a>
+				<div class="quizContent">
+					<h3>{{ q.title }}</h3>
+					<p>{{ q.metadata.description }}</p>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

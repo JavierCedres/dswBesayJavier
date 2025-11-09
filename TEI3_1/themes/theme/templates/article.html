@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="quizDetails">
+    <img class="quizDetailsImg" src="{{ SITEURL }}/theme/imgs/{{ article.metadata.image }}" />
+    <div class="quizDetailsContent">
+        {{ article.content }}
+        <div class="quizDetailsAuthor">Autor: {{ article.autor }}</div>
+    </div>
+</div>
+{% endblock %}
