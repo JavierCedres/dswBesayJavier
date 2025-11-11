@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
+
 from users.models import Profile
 
 from .forms import LoginForm, SignupForm
@@ -46,3 +47,7 @@ def user_signup(request):
     else:
         form = SignupForm()
     return render(request, 'accounts/signup.html', dict(form=form))
+
+
+def profile(request):
+    return render({{request.user.profile}})

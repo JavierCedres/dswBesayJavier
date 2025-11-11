@@ -1,0 +1,8 @@
+{% block content%}
+<ul>
+    {% for echo in echos %}
+        <li>{{ echo }}</li>
+        <a href=" {% url 'echos:echo-detail' echo %} ">Detalles</a>
+    {% endfor %}
+  </ul>
+{% endblock %}
