@@ -6,12 +6,14 @@ from .forms import AddEchoForm, EditEchoForm
 from .models import Echo
 
 
+@login_required
 def echo_list(request):
     print(f'{request.user}')
     echos = Echo.objects.all()
     return render(request, 'echos/echo_list.html', {'echos': echos})
 
 
+@login_required
 def echo_detail(request, echo: Echo):
     return render(request, 'echos/echo_detail.html', {'echo': echo})
 

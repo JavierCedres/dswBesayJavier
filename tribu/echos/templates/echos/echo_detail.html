@@ -1,15 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="echo">
-    <h1>{{ echo }}</h1>
-    {% if echo.content|length > 20 %}
-      <h1>AAAAAAAAAAAAAAaa</h1>
-      <h2> {{ echo.content|length }} </h2>
-      <p>{{ echo.content }}</p>
-    {% else %}
-      <h1>EEEEEEEEEEE</h1>
-      <h2> {{ longitud }} </h2>
-      <p>{{ echo.content }}</p>
-    {% endif %}
-  </div>
+	<div class="echo">
+		<h1>{{ echo.content }}</h1>
+	</div>
 {% endblock content %}
