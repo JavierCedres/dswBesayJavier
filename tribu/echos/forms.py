@@ -8,15 +8,15 @@ class AddEchoForm(forms.ModelForm):
         model = Echo
         fields = ('content',)
 
-    # def __init__(self, user, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.user = user
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
 
-    # def save(self, *args, **kwargs):
-    #     echo = super().save(commit=False)
-    #     echo.user = self.user
-    #     echo = super().save(*args, **kwargs)
-    #     return echo
+    def save(self, *args, **kwargs):
+        echo = super().save(commit=False)
+        echo.user = self.user
+        echo = super().save(*args, **kwargs)
+        return echo
 
 
 class EditEchoForm(forms.ModelForm):

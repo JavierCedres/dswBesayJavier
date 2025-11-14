@@ -1,5 +1,9 @@
-<form method="post" novalidate>
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" value="Enviar">
-</form>
+{% extends "base.html" %}
+{% block content %}
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Enviar">
+    </form>
+    <a href="{% url "echos:echo-list" %}">Cancel</a>
+{% endblock content %}

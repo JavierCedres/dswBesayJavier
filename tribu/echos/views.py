@@ -20,10 +20,10 @@ def echo_detail(request, echo: Echo):
 
 @login_required
 def add_echo(request):
-    if request.method == 'echo':
-        if (form := AddEchoForm(request.user, request.echo)).is_valid():
-            echo = form.save(commit=False)
-            echo.save()
+    if request.method == 'POST':
+        if (form := AddEchoForm(request.user, request.POST)).is_valid():
+            form.save()
+            messages.success(request, 'Echo added successfully')
             return redirect('echos:echo-list')
     else:
         form = AddEchoForm(request.user)
@@ -31,10 +31,10 @@ def add_echo(request):
 
 
 def edit_echo(request, echo: Echo):
-    if request.method == 'echo':
+    if request.method == 'post':
         if (form := EditEchoForm(request.echo, instance=echo)).is_valid():
-            echo = form.save(commit=False)
-            echo.save()
+            form.save()
+            messages.success(request, 'Echo added successfully')
             return redirect('echos:echo-list')
     else:
         form = EditEchoForm(instance=echo)

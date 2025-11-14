@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 
 class Echo(models.Model):
@@ -10,5 +11,8 @@ class Echo(models.Model):
         settings.AUTH_USER_MODEL, related_name='echos', on_delete=models.CASCADE
     )
 
-def __str__(self):
-    return self.name
+    def get_absolute_url(self):
+        return reverse('echos:echo-detail', kwargs={'pk': self.pk})
+
+    def __str__(self):
+        return self.name
