@@ -1,8 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
-from django.urls import reverse
-
 from users.models import Profile
 
 from .forms import LoginForm, SignupForm
@@ -12,7 +10,7 @@ def user_login(request):
     FALLBACK_REDIRECT = 'index'
 
     if request.user.is_authenticated:
-        return redirect(reverse(FALLBACK_REDIRECT))
+        return redirect(FALLBACK_REDIRECT)
     if request.method == 'POST':
         if (form := LoginForm(request.POST)).is_valid():
             username = form.cleaned_data['username']
@@ -24,11 +22,7 @@ def user_login(request):
                 form.add_error(None, 'Incorrect username or password.')
     else:
         form = LoginForm()
-    return render(
-        request,
-        'accounts/login.html',
-        dict(form=form),
-    )
+    return render(request, 'accounts/login.html', {'form': form})
 
 
 @login_required

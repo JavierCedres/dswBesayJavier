@@ -10,12 +10,12 @@ from .models import Echo
 def echo_list(request):
     print(f'{request.user}')
     echos = Echo.objects.all()
-    return render(request, 'echos/echo_list.html', {'echos': echos})
+    return render(request, 'echos/echo/list.html', {'echos': echos})
 
 
 @login_required
 def echo_detail(request, echo: Echo):
-    return render(request, 'echos/echo_detail.html', {'echo': echo})
+    return render(request, 'echos/echo/detail.html', {'echo': echo})
 
 
 @login_required
@@ -27,7 +27,7 @@ def add_echo(request):
             return redirect('echos:echo-list')
     else:
         form = AddEchoForm(request.user)
-    return render(request, 'echos/add.html', dict(form=form))
+    return render(request, 'echos/echo/add.html', dict(form=form))
 
 
 def edit_echo(request, echo: Echo):
@@ -38,7 +38,7 @@ def edit_echo(request, echo: Echo):
             return redirect('echos:echo-list')
     else:
         form = EditEchoForm(instance=echo)
-    return render(request, 'echos/edit.html', dict(echo=echo, form=form))
+    return render(request, 'echos/echo/edit.html', dict(echo=echo, form=form))
 
 
 def delete_echo(request, echo: Echo):
@@ -49,4 +49,4 @@ def delete_echo(request, echo: Echo):
         messages.error(request, 'echo does not exist')
 
     echos = echo.objects.all()
-    return render(request, 'echos/echo_list.html', {'echos': echos})
+    return render(request, 'echos/echo/list.html', {'echos': echos})
