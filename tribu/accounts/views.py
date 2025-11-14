@@ -1,6 +1,7 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+
 from users.models import Profile
 
 from .forms import LoginForm, SignupForm
@@ -43,5 +44,6 @@ def user_signup(request):
     return render(request, 'accounts/signup.html', dict(form=form))
 
 
-def profile(request):
-    return render({{request.user.profile}})
+def user_profile(request, username):
+    user = get_user_model().objects.get(username=username)
+    return render(request, 'accounts/account/profile.html', dict(user=user))

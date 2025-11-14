@@ -3,7 +3,7 @@
 	{% for echo in echos %}
 		<p>{{ echo.content|truncatechars:20 }}</p>
 		<a href=" {% url 'echos:echo-detail' echo %}">Detalles</a>
-		<a href="{% url "accounts:profile" %}">{{echo.user}}</a>
+		<a href="{% url "profile" echo.user %}">{{echo.user}}</a>
 	{% endfor %}
 </ul>
 {% endblock %}
