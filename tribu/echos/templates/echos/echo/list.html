@@ -1,9 +1,20 @@
 {% block content%}
 <ul>
+	{% if echos.count == 0 %}
+		<p></p>
+	{% elif echos.count == 1 %}
+		<p>Tribu has posted 1 echo so far!</p>
+	{% else %}
+		<p>Tribu has posted {{echos.count}} echos so far!</p>
+	{% endif %}
+	<a href="{% url "echos:add-echo" %}">Add echo</a>
 	{% for echo in echos %}
 		<p>{{ echo.content|truncatechars:20 }}</p>
 		<a href=" {% url 'echos:echo-detail' echo %}">Detalles</a>
 		<a href="{% url "profile" echo.user %}">{{echo.user}}</a>
+		<p>{{ echo.created_at|timesince }}</p>
+	{% empty %}
+		<p>No echos yet</p>
 	{% endfor %}
 </ul>
 {% endblock %}
