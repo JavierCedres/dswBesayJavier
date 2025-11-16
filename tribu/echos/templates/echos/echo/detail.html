@@ -1,6 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-	<div class="echo">
+	{% if messages %}
+		<ul class="messages">
+    		{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+					{{ message }}
+				</li>
+    		{% endfor %}
+		</ul>
+	{% endif %}
+	<div>
 		<h1>{{ echo.content }}</h1>
 	</div>
+	{% if echo.user == user %}
+		<a href="{% url "echos:delete-echo" echo %}">Delete echo</a>
+		<a href="{% url "echos:edit-echo" echo %}">Edit echo</a>
+	{% endif %}
+	<h2>Waves</h2>
+	{% for wave in waves|slice:":5" %}
+		<p>{{wave.content}}</p>
+		<a href="{% url "users:user-detail" wave.user %}">{{wave.user}}</a>
+		<p>{{ wave.created_at|timesince }}</p>
+		{% if wave.user == user %}
+			<a href="{% url "waves:delete-wave" wave %}">Delete wave</a>
+			<a href="{% url "waves:edit-wave" wave %}">Edit wave</a>
+		{% endif %}
+	{% empty %}
+		<p>No waves yet</p>
+	{% endfor %}
+	{% if waves.count > 5 %}
+		<a href="{% url "echos:wave-list" echo %}">View all waves</a>
+	{% endif %}
+	<a href="{% url "echos:add-wave" echo %}">Add wave</a>
 {% endblock content %}

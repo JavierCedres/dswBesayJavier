@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 
@@ -36,14 +36,9 @@ def user_signup(request):
     if request.method == 'POST':
         if (form := SignupForm(request.POST)).is_valid():
             user = form.save()
-            Profile.objects.create(bio='', user=user)
+            Profile.objects.create(avatar="avatars/noavatar.png", bio='', user=user)
             login(request, user)
             return redirect('index')
     else:
         form = SignupForm()
     return render(request, 'accounts/signup.html', dict(form=form))
-
-
-def user_profile(request, username):
-    user = get_user_model().objects.get(username=username)
-    return render(request, 'accounts/account/profile.html', dict(user=user))

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if echo.user == user %}
+        <a href="{% url "echos:delete-echo" echo %}">Delete echo</a>
+        <a href="{% url "echos:edit-echo" echo %}">Edit echo</a>
+    {% endif %}
+    {% for wave in waves %}
+        <p>{{wave.content}}</p>
+		<a href="{% url "users:user-detail" wave.user %}">{{wave.user}}</a>
+		<p>{{ wave.created_at|timesince }}</p>
+		{% if wave.user == user %}
+			<a href="{% url "waves:delete-wave" wave %}">Delete wave</a>
+			<a href="{% url "waves:edit-wave" wave %}">Edit wave</a>
+		{% endif %}
+    {% empty %}
+        <h1>No waves yet</h1>
+    {% endfor %}
+{% endblock content %}

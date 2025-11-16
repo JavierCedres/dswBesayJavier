@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content%}
+    {% if user == userProfile.user %}
+        <a href="{% url "users:user-edit" userProfile.profile %}">Edit profile</a>
+    {% endif %}
+	{% for echo in echos %}
+		<p>{{ echo.content|truncatechars:20 }}</p>
+		<a href="{{echo.get_absolute_url}}">Detalles</a>
+		<a href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
+		<p>{{ echo.created_at|timesince }}</p>
+	{% empty %}
+		<p>No echos yet</p>
+	{% endfor %}
+{% endblock %}

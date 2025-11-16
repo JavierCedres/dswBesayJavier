@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if messages %}
+		<ul class="messages">
+    		{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+					{{ message }}
+				</li>
+    		{% endfor %}
+		</ul>
+	{% endif %}
+    <h1>{{userProfile.first_name }}</h1>
+    <p>{{userProfile.last_name}}</p>
+    <p>{{userProfile}}</p>
+    <p>{{userProfile.email}}</p>
+    <p>{{userProfile.profile.bio}}</p>
+    <img src="{{userProfile.profile.avatar.url}}" alt="Avatar" width="300" heigh="300">
+    {% if user == userProfile %}
+        <a href="{% url "users:user-edit" userProfile.profile %}">Edit profile</a>
+    {% endif %}
+    {% for echo in echos|slice:":5" %}
+        <h3>{{echo.content|truncatechars:20}}</h3>
+        <a href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
+        <a href="{{echo.get_absolute_url}}">Detalles</a>
+        <p>{{ echo.created_at|timesince }}</p>
+    {% empty %}
+        <p>No echos yet</p>
+    {% endfor %}
+    {% if echos.count > 5 %}
+		<a href="{% url "users:user-echos" userProfile.profile %}">View all echos</a>
+	{% endif %}
+{% endblock content %}

@@ -1,12 +1,14 @@
+{% extends "base.html" %}
+
 {% block content%}
 	{% if messages %}
-	<ul class="messages">
-    {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-            {{ message }}
-        </li>
-    {% endfor %}
-	</ul>
+		<ul class="messages">
+    		{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+					{{ message }}
+				</li>
+    		{% endfor %}
+		</ul>
 	{% endif %}
 	{% if echos.count == 0 %}
 		<p></p>
@@ -18,8 +20,8 @@
 	<a href="{% url "echos:add-echo" %}">Add echo</a>
 	{% for echo in echos %}
 		<p>{{ echo.content|truncatechars:20 }}</p>
-		<a href=" {% url 'echos:echo-detail' echo %}">Detalles</a>
-		<a href="{% url "profile" echo.user %}">{{echo.user}}</a>
+		<a href="{{echo.get_absolute_url}}">Detalles</a>
+		<a href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
 		<p>{{ echo.created_at|timesince }}</p>
 	{% empty %}
 		<p>No echos yet</p>

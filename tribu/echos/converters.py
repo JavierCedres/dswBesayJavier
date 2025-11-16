@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404
 
 from .models import Echo
 
-
 class EchoConverter:
     regex = r'[\w-]+'
 
@@ -10,4 +9,4 @@ class EchoConverter:
         return get_object_or_404(Echo, pk=echo_pk)
 
     def to_url(self, echo: Echo) -> str:
-        return echo.pk
+        return echo
