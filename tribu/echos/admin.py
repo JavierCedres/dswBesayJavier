@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Echo
+
+
+@admin.register(Echo)
+class WaveAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'content')

@@ -32,10 +32,23 @@ body {
 }
 
 .mainButton {
-  
+  background-color: #1c3738;
+  width: 600px;
+  height: 400px;
+  border: solid black 3px;
+  border-radius: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .mainButton a {
   text-decoration: none;
   color: #d0fff6;
+}
+.buttonsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
 }
