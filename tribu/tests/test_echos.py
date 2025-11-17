@@ -320,6 +320,9 @@ def test_echo_detail_page_shows_all_waves_when_within_limit(client, user, echo):
 @pytest.mark.django_db
 def test_echo_detail_page_shows_expected_info_about_related_waves(client, user, echo):
     waves = baker.make_recipe('tests.wave', echo=echo, _quantity=3)
+    # Hack to fix {{ wave.user.profile.get_absolute_url }} in the template
+    for wave in waves:
+        baker.make_recipe('tests.profile', user=wave.user)
 
     url = conftest.ECHO_DETAIL_URL.format(echo_pk=echo.pk)
     client.force_login(user)

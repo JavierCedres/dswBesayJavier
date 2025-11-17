@@ -19,7 +19,7 @@
 	{% endif %}
 	<a href="{% url "echos:add-echo" %}">Add echo</a>
 	{% for echo in echos %}
-		<p>{{ echo.content|truncatechars:20 }}</p>
+		<p>{{ echo.content|truncatewords:20 }}</p>
 		<a href="{{echo.get_absolute_url}}">Detalles</a>
 		<a href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
 		<p>{{ echo.created_at|timesince }}</p>

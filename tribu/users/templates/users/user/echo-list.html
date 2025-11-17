@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 {% block content%}
-    {% if user == userProfile.user %}
+	<h1>{{userProfile.first_name }}</h1>
+    <p>{{userProfile.last_name}}</p>
+    <p>{{userProfile}}</p>
+    <p>{{userProfile.email}}</p>
+    <p>{{userProfile.profile.bio}}</p>
+	<img src="{{userProfile.profile.avatar.url}}" alt="Avatar" width="300" heigh="300">
+    {% if user == userProfile %}
         <a href="{% url "users:user-edit" userProfile.profile %}">Edit profile</a>
     {% endif %}
 	{% for echo in echos %}
-		<p>{{ echo.content|truncatechars:20 }}</p>
+		<p>{{ echo.content|truncatewords:20 }}</p>
 		<a href="{{echo.get_absolute_url}}">Detalles</a>
 		<a href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
 		<p>{{ echo.created_at|timesince }}</p>

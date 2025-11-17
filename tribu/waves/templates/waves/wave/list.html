@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <div>
+        <h1>{{ echo.content }}</h1>
+        <a href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
+        <p>{{ echo.created_at|timesince }}</p>
+	</div>
     {% if echo.user == user %}
         <a href="{% url "echos:delete-echo" echo %}">Delete echo</a>
         <a href="{% url "echos:edit-echo" echo %}">Edit echo</a>

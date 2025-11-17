@@ -20,7 +20,7 @@
         <a href="{% url "users:user-edit" userProfile.profile %}">Edit profile</a>
     {% endif %}
     {% for echo in echos|slice:":5" %}
-        <h3>{{echo.content|truncatechars:20}}</h3>
+        <h3>{{echo.content|truncatewords:20}}</h3>
         <a href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
         <a href="{{echo.get_absolute_url}}">Detalles</a>
         <p>{{ echo.created_at|timesince }}</p>
