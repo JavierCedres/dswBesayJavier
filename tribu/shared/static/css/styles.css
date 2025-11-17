@@ -1,14 +1,41 @@
 body {
   background: linear-gradient(#236a64, #2b978c);
   background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
 .tribu {
   color: #d0fff6;
   text-align: center;
   font-size: 60px;
+  margin: 10px;
 }
-.header {
+
+.headerContainer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.header {
+  position: absolute;
+  right: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.mainButton {
+  
+}
+
+.mainButton a {
+  text-decoration: none;
+  color: #d0fff6;
 }
