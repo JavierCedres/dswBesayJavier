@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <a href="{% url 'echos:echo-list' %}">Lista</a>
+  <a href="{% url 'echos:echo-list' %}">Echos</a>
+  <a href="{% url "users:user-list" %}">Usuarios</a>
 {% endblock content %}

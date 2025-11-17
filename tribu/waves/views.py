@@ -1,17 +1,17 @@
-from django.http import HttpResponseForbidden
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+from django.shortcuts import redirect, render
 
-from .models import Wave
 from .forms import EditWaveForm
+from .models import Wave
 
 
 @login_required
 def delete_wave(request, wave):
     if request.user != wave.user:
-        return HttpResponseForbidden("You are not the autor of this wave")
-    
+        return HttpResponseForbidden('You are not the autor of this wave')
+
     try:
         if request.user == wave.user:
             Wave.objects.get(pk=wave.pk).delete()
@@ -24,12 +24,12 @@ def delete_wave(request, wave):
 @login_required
 def edit_wave(request, wave):
     if request.user != wave.user:
-        return HttpResponseForbidden("You are not the autor of this wave")
-    
+        return HttpResponseForbidden('You are not the autor of this wave')
+
     if request.method == 'POST':
         if (form := EditWaveForm(request.POST, instance=wave)).is_valid():
             form.save()
-            messages.success(request, "Wave updated successfully")
+            messages.success(request, 'Wave updated successfully')
             return redirect(wave.echo)
     else:
         form = EditWaveForm(instance=wave)

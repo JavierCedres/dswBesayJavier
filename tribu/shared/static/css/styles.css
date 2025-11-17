@@ -1,0 +1,14 @@
+body {
+  background: linear-gradient(#236a64, #2b978c);
+  background-attachment: fixed;
+}
+.tribu {
+  color: #d0fff6;
+  text-align: center;
+  font-size: 60px;
+}
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

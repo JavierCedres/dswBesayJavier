@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
 from django.http import HttpResponseForbidden
+from django.shortcuts import redirect, render
+
+from waves.forms import AddWaveForm
 
 from .forms import AddEchoForm, EditEchoForm
 from .models import Echo
-from waves.models import Wave
-from waves.forms import AddWaveForm
 
 
 @login_required
@@ -36,13 +36,13 @@ def add_echo(request):
 @login_required
 def edit_echo(request, echo: Echo):
     if request.user != echo.user:
-        return HttpResponseForbidden("You are not the autor of this echo")
-    
+        return HttpResponseForbidden('You are not the autor of this echo')
+
     if request.method == 'POST':
         if (form := EditEchoForm(request.POST, instance=echo)).is_valid():
             if request.user == echo.user:
                 form.save()
-                messages.success(request, "Echo updated successfully")
+                messages.success(request, 'Echo updated successfully')
                 return redirect(echo)
     else:
         form = EditEchoForm(instance=echo)
@@ -52,15 +52,15 @@ def edit_echo(request, echo: Echo):
 @login_required
 def delete_echo(request, echo: Echo):
     if request.user != echo.user:
-        return HttpResponseForbidden("You are not the autor of this echo")
-    
+        return HttpResponseForbidden('You are not the autor of this echo')
+
     try:
         if request.user == echo.user:
             Echo.objects.get(pk=echo.pk).delete()
-            messages.success(request, "Echo deleted successfully")
+            messages.success(request, 'Echo deleted successfully')
     except echo.DoesNotExist:
         messages.error(request, 'Echo does not exist')
-    return redirect("echos:echo-list")
+    return redirect('echos:echo-list')
 
 
 @login_required

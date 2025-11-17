@@ -36,7 +36,7 @@ def user_signup(request):
     if request.method == 'POST':
         if (form := SignupForm(request.POST)).is_valid():
             user = form.save()
-            Profile.objects.create(avatar="avatars/noavatar.png", bio='', user=user)
+            Profile.objects.create(avatar='avatars/noavatar.png', bio='', user=user)
             login(request, user)
             return redirect('index')
     else:
