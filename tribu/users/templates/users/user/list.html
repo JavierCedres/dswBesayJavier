@@ -3,6 +3,6 @@
 {% block content %}
     {% for profile in profiles %}
         <h3>{{profile.user.username}}</h3>
-		<a href="{% url "users:user-detail" profile %}">{{profile}}</a>
+		<a href="{% url "users:user-detail" profile %}">Perfil</a>
     {% endfor %}
 {% endblock content %}
