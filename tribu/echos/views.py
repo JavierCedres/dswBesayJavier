@@ -17,7 +17,7 @@ def echo_list(request):
 
 @login_required
 def echo_detail(request, echo: Echo):
-    waves = echo.waves.all()
+    waves = echo.waves.all()[:5]
     return render(request, 'echos/echo/detail.html', dict(echo=echo, waves=waves))
 
 
@@ -56,7 +56,7 @@ def delete_echo(request, echo: Echo):
 
     try:
         if request.user == echo.user:
-            Echo.objects.get(pk=echo.pk).delete()
+            echo.delete()
             messages.success(request, 'Echo deleted successfully')
     except echo.DoesNotExist:
         messages.error(request, 'Echo does not exist')
@@ -72,10 +72,7 @@ def wave_list(request, echo: Echo):
 @login_required
 def add_wave(request, echo: Echo):
     if (form := AddWaveForm(request.POST or None)).is_valid():
-        wave = form.save(commit=False)
-        wave.echo = echo
-        wave.user = request.user
-        wave.save()
+        form.save(request.user, echo)
         messages.success(request, 'Wave added successfully')
         return redirect(echo)
     return render(request, 'waves/wave/add.html', dict(form=form, echo=echo))

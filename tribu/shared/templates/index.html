@@ -1,12 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="buttonsContainer">
-  <div class="mainButton">
-    <a href="{% url 'echos:echo-list' %}">Echos</a>
+  <div class="buttonsContainer">
+    <a class="btnText" href="{% url 'echos:echo-list' %}"><div class="mainButton">Echos</div></a>
+    <a class="btnText" href="{% url "users:user-list" %}"><div class="mainButton">Usuarios</div></a>
   </div>
-  <div class="mainButton">
-    <a href="{% url "users:user-list" %}">Usuarios</a>
-  </div>
-</div>
 {% endblock content %}

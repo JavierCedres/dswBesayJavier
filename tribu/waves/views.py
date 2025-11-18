@@ -4,7 +4,6 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 
 from .forms import EditWaveForm
-from .models import Wave
 
 
 @login_required
@@ -14,7 +13,7 @@ def delete_wave(request, wave):
 
     try:
         if request.user == wave.user:
-            Wave.objects.get(pk=wave.pk).delete()
+            wave.delete()
             messages.success(request, 'Wave deleted successfully')
     except wave.DoesNotExist:
         messages.error(request, 'Wave does not exist')

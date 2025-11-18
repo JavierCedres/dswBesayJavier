@@ -2,19 +2,19 @@
 
 {% block content%}
 	{% include "messages.html" %}
-	{% if echos.count == 0 %}
-		<p></p>
-	{% elif echos.count == 1 %}
-		<p>Tribu has posted 1 echo so far!</p>
-	{% else %}
-		<p>Tribu has posted {{echos.count}} echos so far!</p>
+	{% if echos.count %}
+		<p>Tribu has posted {{ echos.count }} echo{{ echos.count|pluralize:"s" }} so far!</p>
 	{% endif %}
 	<a href="{% url "echos:add-echo" %}">Add echo</a>
 	{% for echo in echos %}
-		<p>{{ echo.content|truncatewords:20 }}</p>
-		<a href="{{echo.get_absolute_url}}">Detalles</a>
-		<a href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
-		<p>{{ echo.created_at|timesince }}</p>
+		<div class="echoContainer">
+			<p class="echoContent">{{ echo.content|truncatewords:20 }}</p>
+			<div class="echoOptions">
+				<a class="echoText" href="{{echo.get_absolute_url}}">Detalles</a>
+				<a class="echoText" href="{% url "users:user-detail" echo.user %}">{{echo.user}}</a>
+				<p class="echoText">{{ echo.created_at|timesince }}</p>
+			</div>
+		</div>
 	{% empty %}
 		<p>No echos yet</p>
 	{% endfor %}
