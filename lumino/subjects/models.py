@@ -21,7 +21,7 @@ class Lesson(models.Model):
         'subjects.subject', related_name='lessons', on_delete=models.CASCADE
     )
     title = models.CharField(max_length=128)
-    content = models.TextField(max_length=256, blank=True)
+    content = models.TextField(blank=True)
 
 
 class Subject(models.Model):
