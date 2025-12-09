@@ -12,5 +12,13 @@ bundle = [
     "/pytest.ini",
 ]
 backup_on_update = ["justfile"]
-exclude_from_zip = ["*.pyc", ".DS_Store", "/.git", "*.bak", ".venv", ".env"]
+exclude_from_zip = [
+    "*.pyc",
+    ".DS_Store",
+    "/.git",
+    "*.bak",
+    ".venv",
+    ".env",
+    "/media",
+]
 test_cmd = "uv run pytest -s"

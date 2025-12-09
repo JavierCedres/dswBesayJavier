@@ -11,7 +11,7 @@ class Enrollment(models.Model):
         'subjects.subject', related_name='enrollments', on_delete=models.CASCADE
     )
     enrolled_at = models.DateField(auto_now_add=True)
-    mark = models.PositiveIntegerField(
+    mark = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)], blank=True, null=True
     )
 
@@ -28,8 +28,8 @@ class Subject(models.Model):
     code = models.CharField(max_length=50, unique=True)
     name = models.CharField(max_length=128)
     teacher = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='subjects', on_delete=models.PROTECT
+        settings.AUTH_USER_MODEL, related_name='teaching', on_delete=models.PROTECT
     )
     students = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name='enrollment', blank=True
+        settings.AUTH_USER_MODEL, through=Enrollment, related_name='enrolled', blank=True
     )

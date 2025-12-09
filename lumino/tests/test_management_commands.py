@@ -27,3 +27,18 @@ def test_management_command_to_show_subject_stats(capsys):
     excected_output = '\n'.join(f'{d["subject"].code}: {d["avg_mark"]:.2f}' for d in test_data)
     captured = capsys.readouterr()
     assert captured.out.strip() == excected_output
+
+
+@pytest.mark.django_db
+def test_management_command_to_show_subject_stats_when_no_marks_exist(capsys):
+    NUM_SUBJECTS = 3
+    NUM_ENROLLMENTS_PER_SUBJECT = 5
+
+    command = get_subject_stats.Command()
+    subjects = SubjectRelatedFactory.create_batch(
+        NUM_SUBJECTS, enrollments__size=NUM_ENROLLMENTS_PER_SUBJECT, enrollments__mark=None
+    )
+    command.handle()
+    excected_output = '\n'.join(f'{subject.code}: 0.00' for subject in subjects)
+    captured = capsys.readouterr()
+    assert captured.out.strip() == excected_output
