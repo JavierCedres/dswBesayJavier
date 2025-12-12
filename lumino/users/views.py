@@ -45,4 +45,4 @@ def leave(request, profile):
             return HttpResponseForbidden('You are not a student')
     except user.DoesNotExist:
         messages.error(request, 'User does not exist')
-    return redirect(user.echo)
+    return redirect(profile.user)
