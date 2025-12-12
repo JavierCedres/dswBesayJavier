@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{userProfile.first_name }}</h1>
+    <p>{{userProfile.last_name}}</p>
+    <p>{{userProfile.role}}</p>
+    <img src="{{userProfile.profile.avatar.url}}" alt="Avatar" width="200" heigh="200">
+    <p>{{userProfile.email}}</p>
+    <p>{{userProfile.profile.bio}}</p>
+    {% if user == userProfile %}
+        <a href="{% url "users:user-edit" userProfile.profile %}">Edit profile</a>
+    {% endif %}
+    {% if user.role == Student %}
+      <button href="{% url "users:leave" user %}">Leave</button>
+    {% endif %}
+{% endblock content %}
