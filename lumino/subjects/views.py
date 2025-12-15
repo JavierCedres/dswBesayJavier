@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+
 from users.models import Profile
+
+from .forms import EnrollSubjectsForm
 
 
 def subject_list(request):
@@ -15,5 +18,11 @@ def subject_detail(request, subject):
     return render(request, 'subjects/subject/detail.html', dict(subject=subject))
 
 
-def subject_enroll(request):
-    return render(request, 'subjects/subject/enroll.html')
+def enroll_subjects(request):
+    if request.method == 'POST':
+        if (form := EnrollSubjectsForm(request.POST)).is_valid():
+            redirect('subjects:subject-list')
+
+    else:
+        form = EnrollSubjectsForm()
+    return render(request, 'subjects/subject/enroll.html', dict(form=form))

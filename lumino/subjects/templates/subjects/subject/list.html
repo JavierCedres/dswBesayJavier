@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>My subjects</h1>
-  <a href="{% url "subjects:subject-enroll" %}">Matricularse</a>
+  <a href="{% url "subjects:enroll-subjects" %}">Matricularse</a>
   {% for subject in subjects %}
     <p>{{subject.name}}</p>
     <a href="{% url "subjects:subject-detail" subject %}">Detalles</a>
