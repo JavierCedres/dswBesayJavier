@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>My subjects</h1>
-  {% for enrollment in enrollments %}
-    <p>{{enrollment}}</p>
+  <a href="{% url "subjects:subject-enroll" %}">Matricularse</a>
+  {% for subject in subjects %}
+    <p>{{subject.name}}</p>
+    <a href="{% url "subjects:subject-detail" subject %}">Detalles</a>
   {% endfor %}
 {% endblock  %}

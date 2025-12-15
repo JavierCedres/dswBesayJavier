@@ -1,11 +1,13 @@
 from django.shortcuts import get_object_or_404
 
+from .models import Subject
 
-class PostConverter:
+
+class SubjectConverter:
     regex = r'[\w-]+'
 
-    def to_python(self, post_slug: str) -> Subject:
-        return get_object_or_404(Subject, slug=post_slug)
+    def to_python(self, code: str) -> Subject:
+        return get_object_or_404(Subject, code=code)
 
-    def to_url(self, post: Subject) -> str:
-        return post.slug
+    def to_url(self, subject: Subject) -> str:
+        return subject
