@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <p>hola</p>
+  {% if not user.is_authenticated %}
+    <p>Join Lumino. The cool education platform!</p>
+  {% endif %}
 {% endblock content %}

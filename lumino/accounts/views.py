@@ -16,12 +16,9 @@ def user_login(request):
             password = form.cleaned_data['password']
             if user := authenticate(request, username=username, password=password):
                 login(request, user)
-
                 return redirect(request.GET.get('next', FALLBACK_REDIRECT))
-
             else:
                 form.add_error(None, 'Incorrect username or password.')
-
     else:
         form = LoginForm()
     return render(request, 'accounts/login.html', {'form': form})
@@ -29,9 +26,7 @@ def user_login(request):
 
 def user_logout(request):
     FALLBACK_REDIRECT = 'index'
-
     logout(request)
-
     return redirect(FALLBACK_REDIRECT)
 
 
@@ -43,7 +38,6 @@ def user_signup(request):
     if request.method == 'POST':
         if (form := SignupForm(request.POST)).is_valid():
             user = form.save()
-
             login(request, user)
             messages.success(request, 'Welcome to Lumino. Nice to see you!')
             return redirect(FALLBACK_REDIRECT)
