@@ -1,4 +1,7 @@
-<h1>My subjects</h1>
-{% for enrollment in enrollments %}
-  <p>{{enrollment}}</p>
-{% endfor %}
+{% extends "base.html" %}
+{% block content %}
+  <h1>My subjects</h1>
+  {% for enrollment in enrollments %}
+    <p>{{enrollment}}</p>
+  {% endfor %}
+{% endblock  %}

@@ -4,4 +4,4 @@ from . import views
 
 app_name = 'subjects'
 
-urlpatterns = [path('', views.subject_list, name='subject-list')]
+urlpatterns = [path('', views.subject_list, name='subject-list'), path('<str:subject-name>')]
