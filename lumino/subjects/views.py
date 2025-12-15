@@ -1,8 +1,6 @@
 from django.shortcuts import render
 
-from .models import Subject
 
-
-def subjects_list(request):
-    subjects = Subject.objects.all()
-    return render(request, 'subjects/subject/list.html', dict())
+def subject_list(request):
+    enrollments = request.user.subjects.all()
+    return render(request, 'subjects/subject/list.html', dict(enrollments=enrollments))

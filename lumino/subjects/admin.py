@@ -5,7 +5,10 @@ from .models import Subject
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'teacher', 'students')
+    list_display = (
+        'code',
+        'name',
+    )
 
 
 class LessonAdmin(admin.ModelAdmin):

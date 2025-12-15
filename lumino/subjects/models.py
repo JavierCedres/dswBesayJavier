@@ -15,6 +15,9 @@ class Enrollment(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(10)], blank=True, null=True
     )
 
+    def __str__(self):
+        return str(self.mark)
+
 
 class Lesson(models.Model):
     subject = models.ForeignKey(
@@ -33,3 +36,6 @@ class Subject(models.Model):
     students = models.ManyToManyField(
         settings.AUTH_USER_MODEL, through=Enrollment, related_name='enrolled', blank=True
     )
+
+    def __str__(self):
+        return self.name
