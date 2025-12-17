@@ -3,7 +3,8 @@ bundle = [
     "/docs/README.pdf",
     "/tests",
     "/fixtures",
-    "/media/avatars/example_*.jpg",
+    "/media/avatars/example*.jpg",
+    "/media/avatars/noavatar.png",
     "/factories",
     "/.gitignore",
     "/pyproject.toml",
@@ -21,4 +22,4 @@ exclude_from_zip = [
     ".env",
     "/media",
 ]
-test_cmd = "uv run pytest -s"
+test_cmd = "uv run pytest"

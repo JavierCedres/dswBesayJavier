@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 
 from users.models import Profile
 
-from .forms import EnrollSubjectsForm
+from .forms import AddEnrollSubjectsForm
 
 
 def subject_list(request):
@@ -20,9 +20,9 @@ def subject_detail(request, subject):
 
 def enroll_subjects(request):
     if request.method == 'POST':
-        if (form := EnrollSubjectsForm(request.POST)).is_valid():
+        if (form := AddEnrollSubjectsForm(request.POST, request.user)).is_valid():
             redirect('subjects:subject-list')
 
     else:
-        form = EnrollSubjectsForm()
+        form = AddEnrollSubjectsForm(request.user)
     return render(request, 'subjects/subject/enroll.html', dict(form=form))

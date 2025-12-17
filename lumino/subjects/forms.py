@@ -3,9 +3,10 @@ from django import forms
 from .models import Subject
 
 
-class EnrollSubjectsForm(forms.Form):
-    subjects = forms.ModelMultipleChoiceField(queryset=Subject.objects.all())
+class AddEnrollSubjectsForm(forms.Form):
+    subjects = forms.ModelMultipleChoiceField(queryset=None, widget=forms.CheckboxSelectMultiple)
 
     def __init__(self, student, *args, **kwargs):
+        qs = Subject.objects.exclude(students=student)
         super().__init__(*args, **kwargs)
-        self.
+        self.fields['subjects'].queryset = qs

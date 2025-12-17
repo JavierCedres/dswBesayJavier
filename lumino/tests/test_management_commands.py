@@ -1,6 +1,6 @@
 import pytest
 
-from factories.subjects import SubjectRelatedFactory
+from factories import SubjectRelatedFactory
 from subjects.management.commands import get_subject_stats
 
 
