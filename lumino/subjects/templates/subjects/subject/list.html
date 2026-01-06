@@ -3,6 +3,7 @@
 
 {% block content %}
   <h1>{% translate "My subjects" %}</h1>
+  {% comment %} <a href="{% url 'users:profile' %}">Mi perfil</a> {% endcomment %}
   {% include "includes/messages.html" %}
   {% if user|is_student %}
     <a href="{% url "subjects:enroll-subjects" %}">Matricularse</a>
