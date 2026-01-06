@@ -1,9 +1,18 @@
 {% extends "base.html" %}
+{% load i18n users_extras %}
+
 {% block content %}
-  <h1>My subjects</h1>
-  <a href="{% url "subjects:enroll-subjects" %}">Matricularse</a>
+  <h1>{% translate "My subjects" %}</h1>
+  {% include "includes/messages.html" %}
+  {% if user|is_student %}
+    <a href="{% url "subjects:enroll-subjects" %}">Matricularse</a>
+    <a href="{% url "subjects:unenroll-subjects" %}">Desmatricularse</a>
+    {% if graded %}
+      <a href="{% url "subjects:request-certificate" %}">Generar certificado</a>
+    {% endif %}
+  {% endif %}
   {% for subject in subjects %}
     <p>{{subject.name}}</p>
-    <a href="{% url "subjects:subject-detail" subject %}">Detalles</a>
+    <a href="{{ subject.get_absolute_url }}">Detalles</a>
   {% endfor %}
 {% endblock  %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% include "includes/messages.html" %}
+	<form method="post" novalidate>
+		{% csrf_token %}
+        {{ formset.management_form }}
+		{% for form in formset %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            <p>{{ form.instance.student.get_full_name }} {{ form.mark }}</p>
+        {% endfor %}
+		<input type="submit" value="Add">
+	</form>
+{% endblock content %}

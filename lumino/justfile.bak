@@ -87,7 +87,7 @@ dbshell:
 
 # Setup new project
 [group('config')]
-setup: && migrate create-su set-tz
+setup: && migrate create-su set-tz set-media
     #!/usr/bin/env bash
     uv sync
     uv run django-admin startproject main .
@@ -100,6 +100,15 @@ set-tz timezone="Atlantic/Canary":
     if [ $? -eq 0 ]; then
         echo "✔ Fixed TIME_ZONE='{{ timezone }}' and LANGUAGE_CODE='es-es'"
     fi
+
+# Set media settings
+[group('config')]
+set-media:
+    #!/usr/bin/env bash
+    echo "" >> ./main/settings.py
+    echo "MEDIA_ROOT = BASE_DIR / 'media'" >> ./main/settings.py
+    echo "MEDIA_URL = 'media/'" >> ./main/settings.py
+    echo "✔ Media settings added to settings.py"
 
 # Remove migrations and database. Reset DB artefacts.
 [confirm("⚠️ All migrations and database will be removed. Continue? [yN]:")]
@@ -135,6 +144,14 @@ clean-data:
     Subject.objects.all().delete()
     User.objects.exclude(is_superuser=True).delete()
     ' 
+    sqlite3 db.sqlite3 '
+    delete from sqlite_sequence where
+    name="subjects_subject" or
+    name="subjects_lesson" or
+    name="subjects_enrollment" or
+    name="users_profile";
+    update sqlite_sequence set seq=1 where name="auth_user";
+    '
 
 # Show current users on database
 [group('data')]
@@ -170,7 +187,7 @@ clear-sorl:
 [private]
 gen-data: clean-data clear-sorl
     #!/usr/bin/env bash
-    rm -fr media/avatars/example_*.jpg
+    rm -fr media/avatars/example*.jpg
     uv run manage.py gen_data
     echo "✔ Fake data generated and loaded into database."
 
@@ -199,3 +216,27 @@ redis:
             pgrep -x Redis &> /dev/null || (open /Applications/Redis.app && sleep 2)
         fi
     fi
+
+# Make locale folder for all custom apps
+[group('i18n')]
+makelocale:
+    #!/usr/bin/env bash
+    uv run manage.py shell -v0 -c '
+    from pathlib import Path
+    from django.conf import settings
+
+    for folder in settings.BASE_DIR.iterdir():
+        if folder.is_dir() and (folder / "apps.py").exists():
+            Path(folder / "locale").mkdir(exist_ok=True)
+    '
+    echo "✔ Each app folder has now a 'locale' folder" 
+
+# Make i18n messages
+[group('i18n')]
+makemessages locale="es":
+    uv run manage.py makemessages -l {{ locale }}
+
+# Compile i18n messages
+[group('i18n')]
+compilemessages:
+    uv run manage.py compilemessages -i .venv

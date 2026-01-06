@@ -1,16 +1,16 @@
 {% extends "base.html" %}
+{% load users_extras %}
 
 {% block content %}
-    <h1>{{userProfile.first_name }}</h1>
-    <p>{{userProfile.last_name}}</p>
-    <p>{{userProfile.role}}</p>
-    <img src="{{userProfile.profile.avatar.url}}" alt="Avatar" width="200" heigh="200">
-    <p>{{userProfile.email}}</p>
-    <p>{{userProfile.profile.bio}}</p>
-    {% if user == userProfile %}
-        <a href="{% url "users:user-edit" userProfile.profile %}">Edit profile</a>
-    {% endif %}
-    {% if user.role == Student %}
-      <button href="{% url "users:leave" user %}">Leave</button>
-    {% endif %}
+  <h1>{{userProfile.first_name}} {{userProfile.last_name}}</h1>
+  <p>{{userProfile.profile.get_role_display}}</p>
+  <img src="{{userProfile.profile.avatar.url}}" alt="Avatar" width="200" heigh="200">
+  <p>{{userProfile.email}}</p>
+  <p>{{userProfile.profile.bio}}</p>
+  {% if user == userProfile %}
+      <a href="{% url "users:edit-profile" %}">Edit profile</a>
+  {% endif %}
+  {% if user|is_student %}
+    <button href="{% url "users:leave" %}">Leave</button>
+  {% endif %}
 {% endblock content %}

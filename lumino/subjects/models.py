@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.urls import reverse
 
 
 class Enrollment(models.Model):
@@ -25,6 +26,12 @@ class Lesson(models.Model):
     )
     title = models.CharField(max_length=128)
     content = models.TextField(blank=True)
+    
+    def get_absolute_url(self):
+        return reverse('subjects:lesson-detail', args=[self.subject.code, self.id])
+    
+    def __str__(self):
+        return self.title
 
 
 class Subject(models.Model):
@@ -36,6 +43,9 @@ class Subject(models.Model):
     students = models.ManyToManyField(
         settings.AUTH_USER_MODEL, through=Enrollment, related_name='enrolled', blank=True
     )
+
+    def get_absolute_url(self):
+        return reverse('subjects:subject-detail', args=[self.code])
 
     def __str__(self):
         return self.code

@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method="post" novalidate enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form}}
-        <input type="submit" value="Enviar">
-    </form>
-    <a href="{% url "users:user-detail" profile %}">Cancel</a>
+	<form method="post" novalidate enctype="multipart/form-data">
+		{% csrf_token %}
+		{{form}}
+		<input type="submit" value="Enviar">
+	</form>
+	<a href="{% url "users:my-user-detail" %}">Cancel</a>
 {% endblock content %}
