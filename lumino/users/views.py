@@ -36,6 +36,6 @@ def leave(request):
     if request.user.profile.role != Profile.Role.STUDENT:
         return HttpResponseForbidden("Only students can leave the platform.")
     
-    logout(request)
+    get_user_model().objects.get(pk=request.user.pk).delete()
     messages.success(request, 'Good bye! Hope to see you soon.')
     return redirect('index')

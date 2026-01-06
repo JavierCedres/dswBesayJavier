@@ -29,7 +29,7 @@ urlpatterns = (
     + i18n_patterns(
         path('admin/', admin.site.urls),
         path('subjects/', include('subjects.urls')),
-        path('users/', include('users.urls')),
+        path('user/', include('users.urls')),
         path('', include('shared.urls')),
         path('', include('accounts.urls')),
     )

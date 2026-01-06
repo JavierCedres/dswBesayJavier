@@ -1,6 +1,8 @@
 {% extends "base.html" %}
+{% load users_extras %}
 
 {% block content %}
+  {% include "includes/messages.html" %}
   {% if not user.is_authenticated %}
     <p>Join Lumino. The cool education platform!</p>
   {% endif %}
