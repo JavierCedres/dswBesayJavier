@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
+
 
 
 class Profile(models.Model):
@@ -13,3 +15,6 @@ class Profile(models.Model):
     role = models.CharField(max_length=1, choices=Role, default=Role.STUDENT)
     avatar = models.ImageField(upload_to='avatars', default='avatars/noavatar.png', blank=True)
     bio = models.TextField(blank=True)
+    
+    def get_absolute_url(self):
+        return reverse('users:user-detail', args=[self.user.username])

@@ -13,11 +13,11 @@ from .models import Subject, Lesson, Enrollment
 def subject_list(request):
     if request.user.profile.role == Profile.Role.TEACHER:
         subjects = request.user.teaching.all()
-        return render(request, 'subjects/subject/list.html', dict(subjects=subjects))
+        return render(request, 'subjects/subject/list.html')
     else:
         subjects = request.user.enrolled.all()
         graded = all(enrollment.mark is not None for enrollment in request.user.enrollments.all())
-        return render(request, 'subjects/subject/list.html', dict(subjects=subjects, graded=graded))
+        return render(request, 'subjects/subject/list.html', dict(graded=graded))
 
 
 @login_required
@@ -55,7 +55,7 @@ def add_lesson(request, subject_code):
             subject = get_object_or_404(Subject, code=subject_code)
             form.save(subject)
             messages.success(request, 'Lesson was successfully added.')
-            return redirect('subjects:subject-detail', subject_code)
+            return redirect(subject)
     else:
         form = AddLessonForm()
     return render(request, 'subjects/lesson/add.html', dict(form=form))
@@ -104,9 +104,10 @@ def delete_lesson(request, subject_code, lesson_pk):
     if (request.user.profile.role == Profile.Role.STUDENT) or (not request.user.teaching.filter(code=subject_code).exists()):
         return HttpResponseForbidden("You are not a Teacher or maybe you are not teaching this subject.")
     
+    subject = Subject.objects.get(code=subject_code)
     Lesson.objects.get(pk=lesson_pk).delete()
     messages.success(request, 'Lesson was successfully deleted.')
-    return redirect('subjects:subject-detail', subject_code)
+    return redirect(subject)
 
 
 @login_required

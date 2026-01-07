@@ -2,6 +2,7 @@
 {% load users_extras %}
 
 {% block content %}
+  {% include "includes/messages.html" %}
   <h1>{{userProfile.first_name}} {{userProfile.last_name}}</h1>
   <p>{{userProfile.profile.get_role_display}}</p>
   <img src="{{userProfile.profile.avatar.url}}" alt="Avatar" width="200" heigh="200">
@@ -13,4 +14,7 @@
   {% if user|is_student %}
     <button href="{% url "users:leave" %}">Leave</button>
   {% endif %}
+  {% for subject in subjects_list %}
+    <p>{{subject}}</p>
+  {% endfor %}
 {% endblock content %}

@@ -16,7 +16,7 @@ def user_detail(request, username):
 
 @login_required
 def my_user_detail(request):
-    return redirect('users:user-detail', request.user)
+    return redirect(request.user.profile)
 
 
 @login_required
@@ -25,7 +25,7 @@ def edit_profile(request):
         if (form := EditProfileForm(request.POST, request.FILES, instance=request.user.profile)).is_valid():
             form.save()
             messages.success(request, 'User profile has been successfully saved.')
-            return redirect('users:my-user-detail')
+            return redirect(request.user.profile)
     else:
         form = EditProfileForm(instance=request.user.profile)
     return render(request, 'users/user/edit.html', dict(form=form, profile=request.user.profile))

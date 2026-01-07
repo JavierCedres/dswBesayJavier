@@ -6,6 +6,6 @@ from .models import Profile
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def my_signal_dispatcher(sender, instance, created, **kwargs):
-    if created:
+def my_signal_dispatcher(sender, instance, raw, created, **kwargs):
+    if created and not raw:
         Profile.objects.create(user=instance)
