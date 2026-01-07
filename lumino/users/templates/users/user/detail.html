@@ -1,15 +1,17 @@
 {% extends "base.html" %}
-{% load users_extras %}
+{% load users_extras thumbnail %}
 
 {% block content %}
   {% include "includes/messages.html" %}
   <h1>{{userProfile.first_name}} {{userProfile.last_name}}</h1>
   <p>{{userProfile.profile.get_role_display}}</p>
-  <img src="{{userProfile.profile.avatar.url}}" alt="Avatar" width="200" heigh="200">
+  {% thumbnail userProfile.profile.avatar "200x200" crop="center" format="PNG" as thumb %}
+    <img src="{{thumb.url}}" alt="Avatar">
+  {% endthumbnail %}
   <p>{{userProfile.email}}</p>
   <p>{{userProfile.profile.bio}}</p>
   {% if user == userProfile %}
-      <a href="{% url "users:edit-profile" %}">Edit profile</a>
+    <a href="{% url "users:edit-profile" %}">Edit profile</a>
   {% endif %}
   {% if user|is_student %}
     <button href="{% url "users:leave" %}">Leave</button>

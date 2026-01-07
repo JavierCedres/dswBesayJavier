@@ -1,0 +1,10 @@
+<p>
+	Student: {{ student.first_name }} {{ student.last_name }}
+</p>
+<ul>
+	{% for enrollment in enrollments %}
+		<li>
+			{{ enrollment.subject.name }}: {{ enrollment.mark }}
+		</li>
+	{% endfor %}
+</ul>

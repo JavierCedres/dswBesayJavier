@@ -7,6 +7,7 @@ from django.forms import modelformset_factory
 from users.models import Profile
 from .forms import AddEnrollSubjectsForm, DeleteEnrollSubjectsForm, AddLessonForm, EditLessonForm, EditMarkForm
 from .models import Subject, Lesson, Enrollment
+from . import tasks
 
 
 @login_required
@@ -168,4 +169,5 @@ def request_certificate(request):
     if not graded:
         return HttpResponseForbidden("You must have all subjects graded to request a certificate.")
     
-    return redirect('subjects:subject-list')
+    tasks.deliver_certificate.delay(request.build_absolute_uri(), request.user)
+    return render(request, 'subjects/subject/certificate.html')

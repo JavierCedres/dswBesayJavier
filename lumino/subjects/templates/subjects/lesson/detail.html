@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% load users_extras %}
+{% load users_extras markdownify  %}
 
 {% block content %}
 	{% include "includes/messages.html" %}
 	<h1>{{lesson}}</h1>
-	<p>{{lesson.content}}</p>
+	<p>{{lesson.content|markdownify}}</p>
 	{% if not user|is_student %}
 		<a href="{% url "subjects:edit-lesson" lesson.subject.code lesson.pk %}">Edit</a>
 		<a href="{% url "subjects:delete-lesson" lesson.subject.code lesson.pk %}">Delete</a>
