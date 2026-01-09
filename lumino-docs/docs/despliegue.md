@@ -16,4 +16,11 @@
 
 ## Sostenibilidad
 
--
+- El sistema se despliega en un entorno virtualizado, permitiendo un uso eficiente y reduciendo el consumo energético.
+
+- El uso de Django favorece la
+  sostenibilidad gracias a su estabilidad y facilidad de mantenimiento a largo plazo.
+
+- La arquitectura modular facilita la reutilización de componentes y futuras mejoras.
+
+- La base de datos se gestiona de forma eficiente mediante consultas optimizadas.
