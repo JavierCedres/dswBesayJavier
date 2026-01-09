@@ -31,11 +31,11 @@ uv add crispy-bootstrap5
 uv add sorl-thumbnail
 ```
 
-```bash title="Sorl-Thumbnail"
+```bash title="Django-rq"
 uv add django-rq
 ```
 
-```bash title="Sorl-Thumbnail"
+```bash title="Django-Markdownify"
 uv add django-markdownify
 ```
 
@@ -45,6 +45,6 @@ uv add django-markdownify
 
 - Al cargar los datos en la base de datos hay que realizar las migraciones necesarias
 
-```bash title="Sorl-Thumbnail"
+```bash title="Migraciones"
 uv run manage.py migrate
 ```
