@@ -1,22 +1,26 @@
-from django.shortcuts import redirect, render, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
-
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, redirect, render
 from users.models import Profile
-from .forms import AddEnrollSubjectsForm, DeleteEnrollSubjectsForm, AddLessonForm, EditLessonForm, EditMarkForm
-from .models import Subject, Lesson, Enrollment
+
 from . import tasks
+from .forms import (
+    AddEnrollSubjectsForm,
+    AddLessonForm,
+    DeleteEnrollSubjectsForm,
+    EditLessonForm,
+    EditMarkForm,
+)
+from .models import Enrollment, Lesson, Subject
 
 
 @login_required
 def subject_list(request):
     if request.user.profile.role == Profile.Role.TEACHER:
-        subjects = request.user.teaching.all()
         return render(request, 'subjects/subject/list.html')
     else:
-        subjects = request.user.enrolled.all()
         graded = all(enrollment.mark is not None for enrollment in request.user.enrollments.all())
         return render(request, 'subjects/subject/list.html', dict(graded=graded))
 
@@ -25,32 +29,40 @@ def subject_list(request):
 def subject_detail(request, subject_code):
     if request.user.profile.role == Profile.Role.STUDENT:
         if not request.user.enrolled.filter(code=subject_code).exists():
-            return HttpResponseForbidden("You are not enrolled in this subject.")
+            return HttpResponseForbidden('You are not enrolled in this subject.')
         subject = get_object_or_404(Subject, code=subject_code)
         enrollment = subject.enrollments.get(student=request.user)
-        return render(request, 'subjects/subject/detail.html', dict(subject=subject, enrollment=enrollment))
+        return render(
+            request, 'subjects/subject/detail.html', dict(subject=subject, enrollment=enrollment)
+        )
     else:
         if not request.user.teaching.filter(code=subject_code).exists():
-            return HttpResponseForbidden("You are not teaching this subject.")
+            return HttpResponseForbidden('You are not teaching this subject.')
         subject = get_object_or_404(Subject, code=subject_code)
         return render(request, 'subjects/subject/detail.html', dict(subject=subject))
 
 
 @login_required
 def lesson_detail(request, subject_code, lesson_pk):
-    if (not request.user.teaching.filter(code=subject_code).exists()) and (not request.user.enrolled.filter(code=subject_code).exists()):
+    if (not request.user.teaching.filter(code=subject_code).exists()) and (
+        not request.user.enrolled.filter(code=subject_code).exists()
+    ):
         return HttpResponseForbidden("You don't belong to this subject")
-        
+
     subject = get_object_or_404(Subject, code=subject_code)
     lesson = get_object_or_404(subject.lessons, id=lesson_pk)
     return render(request, 'subjects/lesson/detail.html', dict(lesson=lesson))
 
 
 @login_required
-def add_lesson(request, subject_code):    
-    if (request.user.profile.role == Profile.Role.STUDENT) or (not request.user.teaching.filter(code=subject_code).exists()):
-        return HttpResponseForbidden("You are not a Teacher or maybe you are not teaching this subject.")
-    
+def add_lesson(request, subject_code):
+    if (request.user.profile.role == Profile.Role.STUDENT) or (
+        not request.user.teaching.filter(code=subject_code).exists()
+    ):
+        return HttpResponseForbidden(
+            'You are not a Teacher or maybe you are not teaching this subject.'
+        )
+
     if request.method == 'POST':
         if (form := AddLessonForm(request.POST)).is_valid():
             subject = get_object_or_404(Subject, code=subject_code)
@@ -64,22 +76,32 @@ def add_lesson(request, subject_code):
 
 @login_required
 def mark_list(request, subject_code):
-    if (request.user.profile.role == Profile.Role.STUDENT) or (not request.user.teaching.filter(code=subject_code).exists()):
-        return HttpResponseForbidden("You are not a Teacher or maybe you are not teaching this subject.")
+    if (request.user.profile.role == Profile.Role.STUDENT) or (
+        not request.user.teaching.filter(code=subject_code).exists()
+    ):
+        return HttpResponseForbidden(
+            'You are not a Teacher or maybe you are not teaching this subject.'
+        )
 
     subject = get_object_or_404(Subject, code=subject_code)
-    enrollments =subject.enrollments.all()
+    enrollments = subject.enrollments.all()
 
-    return render(request, 'subjects/mark/list.html', dict(subject=subject, enrollments=enrollments))
+    return render(
+        request, 'subjects/mark/list.html', dict(subject=subject, enrollments=enrollments)
+    )
 
 
 @login_required
 def edit_marks(request, subject_code):
-    if (request.user.profile.role == Profile.Role.STUDENT) or (not request.user.teaching.filter(code=subject_code).exists()):
-        return HttpResponseForbidden("You are not a Teacher or maybe you are not teaching this subject.")
-    
+    if (request.user.profile.role == Profile.Role.STUDENT) or (
+        not request.user.teaching.filter(code=subject_code).exists()
+    ):
+        return HttpResponseForbidden(
+            'You are not a Teacher or maybe you are not teaching this subject.'
+        )
+
     subject = get_object_or_404(Subject, code=subject_code)
-    
+
     MarkFormSet = modelformset_factory(Enrollment, EditMarkForm, extra=0)
     queryset = subject.enrollments.all()
     if request.method == 'POST':
@@ -98,13 +120,17 @@ def edit_marks(request, subject_code):
         'subjects/mark/edit.html',
         dict(subject=subject, formset=formset),
     )
-    
-    
+
+
 @login_required
 def delete_lesson(request, subject_code, lesson_pk):
-    if (request.user.profile.role == Profile.Role.STUDENT) or (not request.user.teaching.filter(code=subject_code).exists()):
-        return HttpResponseForbidden("You are not a Teacher or maybe you are not teaching this subject.")
-    
+    if (request.user.profile.role == Profile.Role.STUDENT) or (
+        not request.user.teaching.filter(code=subject_code).exists()
+    ):
+        return HttpResponseForbidden(
+            'You are not a Teacher or maybe you are not teaching this subject.'
+        )
+
     subject = Subject.objects.get(code=subject_code)
     Lesson.objects.get(pk=lesson_pk).delete()
     messages.success(request, 'Lesson was successfully deleted.')
@@ -113,11 +139,15 @@ def delete_lesson(request, subject_code, lesson_pk):
 
 @login_required
 def edit_lesson(request, subject_code, lesson_pk):
-    if (request.user.profile.role == Profile.Role.STUDENT) or (not request.user.teaching.filter(code=subject_code).exists()):
-        return HttpResponseForbidden("You are not a Teacher or maybe you are not teaching this subject.")
-    
+    if (request.user.profile.role == Profile.Role.STUDENT) or (
+        not request.user.teaching.filter(code=subject_code).exists()
+    ):
+        return HttpResponseForbidden(
+            'You are not a Teacher or maybe you are not teaching this subject.'
+        )
+
     lesson = Lesson.objects.get(pk=lesson_pk)
-    
+
     if request.method == 'POST':
         if (form := EditLessonForm(request.POST, instance=lesson)).is_valid():
             form.save()
@@ -131,8 +161,8 @@ def edit_lesson(request, subject_code, lesson_pk):
 @login_required
 def enroll_subjects(request):
     if request.user.profile.role == Profile.Role.TEACHER:
-        return HttpResponseForbidden("Teachers cannot enroll in subjects.")
-    
+        return HttpResponseForbidden('Teachers cannot enroll in subjects.')
+
     if request.method == 'POST':
         if (form := AddEnrollSubjectsForm(request.user, request.POST)).is_valid():
             messages.success(request, 'Successfully enrolled in the chosen subjects.')
@@ -147,8 +177,8 @@ def enroll_subjects(request):
 @login_required
 def unenroll_subjects(request):
     if request.user.profile.role == Profile.Role.TEACHER:
-        return HttpResponseForbidden("Teachers cannot unenroll from subjects.")
-    
+        return HttpResponseForbidden('Teachers cannot unenroll from subjects.')
+
     if request.method == 'POST':
         if (form := DeleteEnrollSubjectsForm(request.user, request.POST)).is_valid():
             messages.success(request, 'Successfully unenrolled from the chosen subjects.')
@@ -163,11 +193,11 @@ def unenroll_subjects(request):
 @login_required
 def request_certificate(request):
     if request.user.profile.role == Profile.Role.TEACHER:
-        return HttpResponseForbidden("Teachers cannot request certificates.")
-    
+        return HttpResponseForbidden('Teachers cannot request certificates.')
+
     graded = all(enrollment.mark is not None for enrollment in request.user.enrollments.all())
     if not graded:
-        return HttpResponseForbidden("You must have all subjects graded to request a certificate.")
-    
+        return HttpResponseForbidden('You must have all subjects graded to request a certificate.')
+
     tasks.deliver_certificate.delay(request.build_absolute_uri(), request.user)
     return render(request, 'subjects/subject/certificate.html')

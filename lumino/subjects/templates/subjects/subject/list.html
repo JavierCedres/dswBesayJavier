@@ -11,7 +11,7 @@
           <a class="link custom-text-secondary" href="{% url 'users:my-user-detail' %}">My profile</a>
           <a class="link custom-text-secondary" href="{% url "subjects:enroll-subjects" %}">Enroll</a>
           <a class="link custom-text-secondary" href="{% url "subjects:unenroll-subjects" %}">Unenroll</a>
-          {% if graded %}
+          {% if graded and subjects.count > 0 %}
             <a class="link custom-text-secondary" href="{% url "subjects:request-certificate" %}">Request certificate</a>
           {% endif %}
         </div>
