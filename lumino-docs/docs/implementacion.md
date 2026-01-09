@@ -19,6 +19,17 @@
 
 - Ahora instalamos UV y procedemos a instalar las dependencias necesarias
 
+```python hl_lines="2" title="Code blocks"
+def greet(name):
+    print(f"Hello, {name}!") # (1)!
+
+greet("Python")
+```
+
+??? info "Otras formas"
+
+    También se puede utilizar Pip para instalar las dependencias
+
 - Con UV instalamos DJango, Bootstrap, Sort Thumbnail y SQLite
 
 - Al cargar los datos en la base de datos hay que realizar las migraciones necesarias
