@@ -2,8 +2,10 @@
 {% load users_extras %}
 
 {% block content %}
-  {% include "includes/messages.html" %}
-  {% if not user.is_authenticated %}
-    <p>Join Lumino. The cool education platform!</p>
-  {% endif %}
+  <div class="d-flex flex-column align-items-center justify-content-center h-100">
+    {% include "includes/messages.html" %}
+    {% if not user.is_authenticated %}
+      <p class="index-title custom-text-primary">Join Lumino. The cool education platform!</p>
+    {% endif %}
+  </div>
 {% endblock content %}

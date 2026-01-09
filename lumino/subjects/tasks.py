@@ -18,7 +18,7 @@ def deliver_certificate(base_url, student) -> None:
         }
     )
 
-    HTML(string=html_content, base_url=base_url).write_pdf(f'{student.username}_grade_certificate.pdf')
+    HTML(string=html_content, base_url=base_url).write_pdf(f'media/certificates/{student.username}_grade_certificate.pdf')
     
     email = EmailMessage(
         subject='Grade Certificate',

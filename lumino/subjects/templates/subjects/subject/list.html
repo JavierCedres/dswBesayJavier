@@ -2,18 +2,35 @@
 {% load i18n users_extras %}
 
 {% block content %}
-  <h1>{% translate "My subjects" %}</h1>
-  {% comment %} <a href="{% url 'users:profile' %}">Mi perfil</a> {% endcomment %}
-  {% include "includes/messages.html" %}
-  {% if user|is_student %}
-    <a href="{% url "subjects:enroll-subjects" %}">Matricularse</a>
-    <a href="{% url "subjects:unenroll-subjects" %}">Desmatricularse</a>
-    {% if graded %}
-      <a href="{% url "subjects:request-certificate" %}">Generar certificado</a>
+  <div class="top-padding d-flex flex-column align-items-center h-100">
+    {% include "includes/messages.html" %}
+    {% if user|is_student %}
+      <div class="subjects-header">
+        <h1 class="custom-text-primary">{% translate "My subjects" %}</h1>
+        <div class="subjects-actions gap-4">
+          <a class="link custom-text-secondary" href="{% url 'users:my-user-detail' %}">My profile</a>
+          <a class="link custom-text-secondary" href="{% url "subjects:enroll-subjects" %}">Enroll</a>
+          <a class="link custom-text-secondary" href="{% url "subjects:unenroll-subjects" %}">Unenroll</a>
+          {% if graded %}
+            <a class="link custom-text-secondary" href="{% url "subjects:request-certificate" %}">Request certificate</a>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      <div class="subjects-actions gap-4">
+        <h1 class="custom-text-primary subjects-title">{% translate "My subjects" %}</h1>
+        <a class="link custom-text-secondary" href="{% url 'users:my-user-detail' %}">My profile</a>
+      </div>
     {% endif %}
-  {% endif %}
-  {% for subject in subjects %}
-    <p>{{subject.name}}</p>
-    <a href="{{ subject.get_absolute_url }}">Detalles</a>
-  {% endfor %}
+    <div class="subjects-list d-flex align-items-center justify-content-center gap-5 h-100">
+      {% for subject in subjects %}
+        <div class="subject-card">
+          <p>{{subject.name}}</p>
+          <a href="{{ subject.get_absolute_url }}">Details</a>
+        </div>
+      {% empty %}
+        <p>No subjects already</p>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock  %}

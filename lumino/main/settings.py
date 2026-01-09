@@ -34,6 +34,9 @@ MEDIA_URL = 'media/'
 
 LOGIN_URL = 'login'
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,6 +53,8 @@ INSTALLED_APPS = [
     'django_rq',
     'sorl.thumbnail',
     'markdownify.apps.MarkdownifyConfig',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +135,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [BASE_DIR / 'node_modules']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

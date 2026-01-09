@@ -1,6 +1,33 @@
-<form method="post" novalidate>
-  {% csrf_token %}
-  {{ form }}
-  <input type="submit" value="Sign up">
-</form>
-<a href="{% url "login" %}">Login</a>
+{% load crispy_forms_tags static i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap-icons/font/bootstrap-icons.min.css' %}">
+  <link rel="stylesheet" href="{% static "css/style.css" %}">
+  <title>Document</title>
+</head>
+<body>
+  <div class="base-container d-flex flex-column align-items-center justify-content-center h-100">
+    <div class="row justify-content-center login-register-form">
+      <div class="col-md-4">
+        <div class="card border-dark">
+          <h4 class="card-header">
+            Sign up
+          </h4>
+          <div class="card-body">
+            {% crispy form %}
+          </div>
+          <div class="card-footer">
+            Already have an account? <a href="{% url 'login' %}">Login</a> here.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="{% static 'bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

@@ -4,12 +4,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap-icons/font/bootstrap-icons.min.css' %}">
+  <link rel="stylesheet" href="{% static "css/style.css" %}">
   <title>Document</title>
 </head>
 <body>
-  <div>
+  <div class="base-container">
     {% include "header.html" %}
     {% block content %}{% endblock content %}
   </div>
+
+  <script type="text/javascript" src="{% static 'bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

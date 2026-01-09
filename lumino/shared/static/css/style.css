@@ -1,0 +1,94 @@
+body {
+    background: #F9FAFB;
+    height: 100vh;
+}
+
+.top-padding {
+    padding-top: 70px;
+}
+
+.custom-text-primary {
+    color: #212529;
+}
+
+.custom-text-secondary {
+    color: #1E3A8A;
+}
+
+.custom-messages {
+    position: absolute;
+    left: 0px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    align-items: center;
+    padding: 10px 40px;
+    background: #1E3A8A;
+    color: white;
+}
+
+.base-container {
+    padding: 20px 40px;
+    height: 100%;
+    width: 100%;
+}
+
+.login-register-form {
+    width: 1000px;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.white-text {
+    color: white;
+}
+
+.btn-alt-secondary {
+    background: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: black;
+    text-decoration: none;
+}
+
+.index-title {
+    text-align: center;
+    font-size: 64px;
+    font-weight: bold;
+    margin-top: 0px;
+    width: 700px;
+}
+
+.subjects-header {
+    position: fixed;
+}
+
+.subjects-actions {
+    display: flex;
+    margin-top: 20px;
+}
+
+.subjects-list {
+    flex-wrap: wrap;
+    padding-top: 90px;
+}
+
+.subject-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #E5E7EB;
+    width: 200px;
+    height: 150px;
+    border-radius: 8px;
+    padding: 16px;
+    background: white;
+}
