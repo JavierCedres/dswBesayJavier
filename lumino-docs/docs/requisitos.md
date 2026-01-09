@@ -1,5 +1,14 @@
 # Requisitos
 
-- [`Propósito del documento`]
-- [`Visión general del proyecto`]
-- [`Audiencia objetivo`]
+- [`Requisitos Funcionales`]
+- [`Requisitos no Funcionales`]
+- [`Restricciones`]
+- [`Casos de Uso`]
+
+## Requisitos Funcionales
+
+## Requisitos no Funcionales
+
+## Restricciones
+
+## Casos de Uso
