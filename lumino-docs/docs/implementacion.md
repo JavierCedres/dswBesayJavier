@@ -31,6 +31,14 @@ uv add crispy-bootstrap5
 uv add sorl-thumbnail
 ```
 
+```bash title="Sorl-Thumbnail"
+uv add django-rq
+```
+
+```bash title="Sorl-Thumbnail"
+uv add django-markdownify
+```
+
 ??? info "Otras formas"
 
     También se puede utilizar Pip para instalar las dependencias
