@@ -2,23 +2,25 @@
 {% load users_extras %}
 
 {% block content %}
-  <h1>{{subject.name}}</h1>
-  {% include "includes/messages.html" %}
-  {% for lesson in subject.lessons.all %}
-    <p>{{ lesson }}</p>
-    <p>{{ lesson.id }}</p>
-    <a href="{% url "subjects:lesson-detail" subject.code lesson.pk %}">Details</a>
-    {% if not user|is_student %}
-      <a href="{% url "subjects:edit-lesson" subject.code lesson.pk %}">Edit</a>
-      <a href="{% url "subjects:delete-lesson" subject.code lesson.pk %}">Delete</a>
+  <div class="top-padding d-flex flex-column align-items-center h-100">
+    <h1>{{subject.name}}</h1>
+    {% include "includes/messages.html" %}
+    {% for lesson in subject.lessons.all %}
+      <p>{{ lesson }}</p>
+      <p>{{ lesson.id }}</p>
+      <a href="{% url "subjects:lesson-detail" subject.code lesson.pk %}">Details</a>
+      {% if not user|is_student %}
+        <a href="{% url "subjects:edit-lesson" subject.code lesson.pk %}">Edit</a>
+        <a href="{% url "subjects:delete-lesson" subject.code lesson.pk %}">Delete</a>
+      {% endif %}
+    {% endfor %}
+    {% if user|is_student %}
+      {% if enrollment.mark %}
+        <p>Your mark for this subject: {{ enrollment.mark }}</p>
+      {% endif %}
+    {% else %}
+      <a href="{% url "subjects:add-lesson" subject.code %}">Add lesson</a>
+      <a href="{% url "subjects:mark-list" subject.code %}">Marks</a>
     {% endif %}
-  {% endfor %}
-  {% if user|is_student %}
-    {% if enrollment.mark %}
-      <p>Your mark for this subject: {{ enrollment.mark }}</p>
-    {% endif %}
-  {% else %}
-    <a href="{% url "subjects:add-lesson" subject.code %}">Add lesson</a>
-    <a href="{% url "subjects:mark-list" subject.code %}">Marks</a>
-  {% endif %}
+  </div>
 {% endblock content %}

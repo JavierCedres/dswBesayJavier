@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Enroll">
-  </form>
+  <div class="top-padding d-flex flex-column align-items-center h-100">
+		<form method="post" novalidate>
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="Enroll">
+		</form>
+	</div>
 {% endblock content %}

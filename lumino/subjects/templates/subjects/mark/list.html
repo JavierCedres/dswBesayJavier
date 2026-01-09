@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for enrollment in enrollments %}
-        <p>Student: {{ enrollment.student.first_name }} {{ enrollment.student.last_name }} - Mark: {{ enrollment.mark }}</p>
-        <a href="{% url "users:user-detail" enrollment.student %}">Profile</a>
-    {% endfor %}
-    <a href="{% url 'subjects:edit-marks' subject.code %}">Edit Marks</a>
+    <div class="top-padding d-flex flex-column align-items-center h-100">
+        {% for enrollment in enrollments %}
+            <p>Student: {{ enrollment.student.first_name }} {{ enrollment.student.last_name }} - Mark: {{ enrollment.mark }}</p>
+            <a href="{% url "users:user-detail" enrollment.student %}">Profile</a>
+        {% endfor %}
+        <a href="{% url 'subjects:edit-marks' subject.code %}">Edit Marks</a>
+    </div>
 {% endblock content %}

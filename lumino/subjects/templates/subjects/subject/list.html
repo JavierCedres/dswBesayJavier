@@ -6,7 +6,7 @@
     {% include "includes/messages.html" %}
     {% if user|is_student %}
       <div class="subjects-header">
-        <h1 class="custom-text-primary">{% translate "My subjects" %}</h1>
+        <h1 class="custom-text-primary text-center">{% translate "My subjects" %}</h1>
         <div class="subjects-actions gap-4">
           <a class="link custom-text-secondary" href="{% url 'users:my-user-detail' %}">My profile</a>
           <a class="link custom-text-secondary" href="{% url "subjects:enroll-subjects" %}">Enroll</a>
@@ -17,9 +17,9 @@
         </div>
       </div>
     {% else %}
-      <div class="subjects-actions gap-4">
+      <div class="subjects-header gap-4">
         <h1 class="custom-text-primary subjects-title">{% translate "My subjects" %}</h1>
-        <a class="link custom-text-secondary" href="{% url 'users:my-user-detail' %}">My profile</a>
+        <a class="link custom-text-secondary text-center w-100 d-block" href="{% url 'users:my-user-detail' %}">My profile</a>
       </div>
     {% endif %}
     <div class="subjects-list d-flex align-items-center justify-content-center gap-5 h-100">
