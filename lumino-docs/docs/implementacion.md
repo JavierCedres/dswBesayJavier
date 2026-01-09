@@ -1,9 +1,5 @@
 # Implementación
 
-- [`Estructura del Código`]
-- [`Tecnologías y Herramientas`]
-- [`Instrucciones de Configuración`]
-
 ## Estructura del Código
 
 - El proyecto esta organizado por apps, cada una con sus respectivos archivos de modelos, vistas y rutas
@@ -15,21 +11,32 @@
 
 ## Instrucciones de Configuración
 
-- Para empezar hay que instalar Python, para luego poder crear un entorno virtual
+- Para empezar hay que instalar Python, para luego poder crear un entorno virtual con UV
 
-- Ahora instalamos UV y procedemos a instalar las dependencias necesarias
+??? info "UV"
 
-```python hl_lines="2" title="Code blocks"
-def greet(name):
-    print(f"Hello, {name}!") # (1)!
+    UV es una version mejorada de PIP solo que este maneja las dependencias necesiarias para que funcionen entre sí
 
-greet("Python")
+- Cuando tengamos el entorno virtual procedemos a instalar las dependencias necesarias con UV
+
+```bash title="Django"
+uv add django
+```
+
+```bash title="Bootstrap"
+uv add crispy-bootstrap5
+```
+
+```bash title="Sorl-Thumbnail"
+uv add sorl-thumbnail
 ```
 
 ??? info "Otras formas"
 
     También se puede utilizar Pip para instalar las dependencias
 
-- Con UV instalamos DJango, Bootstrap, Sort Thumbnail y SQLite
-
 - Al cargar los datos en la base de datos hay que realizar las migraciones necesarias
+
+```bash title="Sorl-Thumbnail"
+uv run manage.py migrate
+```

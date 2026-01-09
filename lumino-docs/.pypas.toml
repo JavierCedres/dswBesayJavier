@@ -1,4 +1,4 @@
-version = "0.1.1"
+version = "0.1.2"
 slug = "lumino-docs"
 bundle = [
     "/docs/README.pdf",
@@ -25,3 +25,4 @@ test_cmd = "uv run pytest -s"
 [release_notes]
 "0.1.0" = "Primera versión"
 "0.1.1" = "Ignora carpetas cache al crear el zip"
+"0.1.2" = "Ajusta carpeta de destino en despliegue"

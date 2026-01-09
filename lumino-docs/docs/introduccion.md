@@ -1,9 +1,5 @@
 # Introducción
 
-- [`Propósito del documento`]
-- [`Visión general del proyecto`]
-- [`Audiencia objetivo`]
-
 ## Propósito
 
 - El objetivo de esta documentación es facilitar el uso del proyecto para que los usuarios que revisen este puedan entender el codigo y que se quiere conseguir.
