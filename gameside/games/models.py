@@ -34,12 +34,16 @@ class Game(models.Model):
     cover = models.ImageField(
         upload_to='games/covers/', default='games/covers/default.png', blank=True
     )
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     stock = models.PositiveIntegerField()
     released_at = models.DateField()
-    pegi = models.SmallIntegerField(choices=Pegi, default=Pegi.PEGI18)
+    pegi = models.PositiveSmallIntegerField(choices=Pegi, default=Pegi.PEGI18)
     category = models.ForeignKey(
-        'categories.Category', related_name='games', on_delete=models.SET_NULL
+        'categories.Category',
+        related_name='games',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
     )
     platforms = models.ManyToManyField('platforms.Platform', related_name='games')
 

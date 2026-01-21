@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from shared.decorators import require_http_methods
 
-# Create your views here.
+
+@csrf_exempt
+@require_http_methods
+def game_list(request):
+    return JsonResponse({'success': 'Hola'}, status=200)
