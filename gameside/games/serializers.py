@@ -1,5 +1,6 @@
 from shared.serializers import BaseSerializer
-
+from categories.serializers import CategorySerializer
+from platforms.serializers import PlatformSerializer
 
 class GameSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:

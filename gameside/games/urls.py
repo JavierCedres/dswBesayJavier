@@ -4,4 +4,7 @@ from . import views
 
 app_name = 'games'
 
-urlpatterns = [path('', views.game_list, name='game-list')]
+urlpatterns = [
+    path('', views.game_list, name='game-list'),
+    path('<slug:game_slug>/', views.game_detail, name='game-detail'),
+]
