@@ -37,6 +37,7 @@ def test_required_apps_are_installed():
 # ==============================================================================
 
 
+@pytest.mark.score(2)
 @pytest.mark.django_db
 def test_game_model_is_correctly_configured():
     # title
@@ -127,6 +128,7 @@ def test_game_model_is_correctly_configured():
 # ==============================================================================
 
 
+@pytest.mark.score(2)
 @pytest.mark.django_db
 def test_review_model_is_correctly_configured():
     # rating
@@ -196,6 +198,7 @@ def test_review_model_is_correctly_configured():
 # ==============================================================================
 
 
+@pytest.mark.score(2)
 @pytest.mark.django_db
 def test_category_model_is_correctly_configured():
     # name
@@ -229,6 +232,7 @@ def test_category_model_is_correctly_configured():
 # ==============================================================================
 
 
+@pytest.mark.score(2)
 @pytest.mark.django_db
 def test_platform_model_is_correctly_configured():
     # name
@@ -265,6 +269,7 @@ def test_platform_model_is_correctly_configured():
 # ==============================================================================
 
 
+@pytest.mark.score(2)
 @pytest.mark.django_db
 def test_order_model_is_correctly_configured():
     # status
@@ -321,6 +326,7 @@ def test_order_model_is_correctly_configured():
 # ==============================================================================
 
 
+@pytest.mark.score(2)
 @pytest.mark.django_db
 def test_token_model_is_correctly_configured():
     # key

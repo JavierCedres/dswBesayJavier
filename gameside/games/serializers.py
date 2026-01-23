@@ -15,19 +15,22 @@ class GameSerializer(BaseSerializer):
             'price': instance.price,
             'stock': instance.stock,
             'released_at': instance.released_at.isoformat(),
-            'pegi': instance.pegi,
-            'category': CategorySerializer(instance.category).serialize(),
-            'platforms': PlatformSerializer(instance.platforms.all()).serialize(),
+            'pegi': instance.get_pegi_display(),
+            'category': CategorySerializer(instance.category, request=self.request).serialize(),
+            'platforms': PlatformSerializer(
+                instance.platforms.all(), request=self.request
+            ).serialize(),
         }
 
 
 class ReviewSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
+            'id': instance.pk,
             'rating': instance.rating,
             'comment': instance.comment,
-            'game': GameSerializer(instance.game).serialize(),
-            'author': UserSerializer(instance.author).serialize(),
+            'game': GameSerializer(instance.game, request=self.request).serialize(),
+            'author': UserSerializer(instance.author, request=self.request).serialize(),
             'created_at': instance.created_at,
             'updated_at': instance.updated_at,
         }
