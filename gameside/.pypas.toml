@@ -1,4 +1,4 @@
-version = "0.1.4"
+version = "0.1.8"
 slug = "gameside"
 bundle = [
     "/docs/README.pdf",
@@ -34,3 +34,7 @@ test_cmd = "uv run pytest"
 "0.1.2" = "Integra pytest.ini en pyproject.toml"
 "0.1.3" = "Añade correciones menores en enunciado"
 "0.1.4" = "Corrige sentencias SQL en limpieza de datos"
+"0.1.5" = "Aclara API para Game (pegi) y Order (status)"
+"0.1.6" = "Evita errores testing por custom converters"
+"0.1.7" = "Arregla orden de errores en /api/orders/"
+"0.1.8" = "Corrige errores menores en justfile y README"

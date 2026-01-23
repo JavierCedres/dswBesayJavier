@@ -84,16 +84,16 @@ def test_order_key_is_returned_when_order_is_paid(client, user):
 
 
 @pytest.mark.django_db
-def test_order_detail_fails_when_invalid_token(client):
-    order = conftest.ORDER_DETAIL_URL.format(order_pk=1)
-    status, response = get_json(client, order, bearer_token='invalid-token')
+def test_order_detail_fails_when_invalid_token(client, order):
+    url = conftest.ORDER_DETAIL_URL.format(order_pk=order.pk)
+    status, response = get_json(client, url, bearer_token='invalid-token')
     assert status == 400
     assert response == {'error': 'Invalid authentication token'}
 
 
 @pytest.mark.django_db
-def test_order_detail_fails_when_unregistered_token(client):
-    url = conftest.ORDER_DETAIL_URL.format(order_pk=1)
+def test_order_detail_fails_when_unregistered_token(client, order):
+    url = conftest.ORDER_DETAIL_URL.format(order_pk=order.pk)
     status, response = get_json(client, url, bearer_token=str(uuid.uuid4()))
     assert status == 401
     assert response == {'error': 'Unregistered authentication token'}
@@ -117,8 +117,8 @@ def test_order_detail_fails_when_order_does_not_exist(client, user):
 
 
 @pytest.mark.django_db
-def test_order_detail_fails_when_method_is_not_allowed(client):
-    url = conftest.ORDER_DETAIL_URL.format(order_pk=1)
+def test_order_detail_fails_when_method_is_not_allowed(client, order):
+    url = conftest.ORDER_DETAIL_URL.format(order_pk=order.pk)
     status, _ = post_json(client, url)
     assert status == 405
 
@@ -138,16 +138,16 @@ def test_order_game_list(client, user, order):
 
 
 @pytest.mark.django_db
-def test_order_game_list_fails_when_invalid_token(client):
-    url = conftest.ORDER_GAME_LIST_URL.format(order_pk=1)
+def test_order_game_list_fails_when_invalid_token(client, order):
+    url = conftest.ORDER_GAME_LIST_URL.format(order_pk=order.pk)
     status, response = get_json(client, url, bearer_token='invalid-token')
     assert status == 400
     assert response == {'error': 'Invalid authentication token'}
 
 
 @pytest.mark.django_db
-def test_order_game_list_when_unregistered_token(client):
-    url = conftest.ORDER_GAME_LIST_URL.format(order_pk=1)
+def test_order_game_list_when_unregistered_token(client, order):
+    url = conftest.ORDER_GAME_LIST_URL.format(order_pk=order.pk)
     status, response = get_json(client, url, bearer_token=str(uuid.uuid4()))
     assert status == 401
     assert response == {'error': 'Unregistered authentication token'}
@@ -171,8 +171,8 @@ def test_order_game_list_fails_when_order_does_not_exist(client, user):
 
 
 @pytest.mark.django_db
-def test_order_game_list_fails_when_method_is_not_allowed(client):
-    url = conftest.ORDER_GAME_LIST_URL.format(order_pk=1)
+def test_order_game_list_fails_when_method_is_not_allowed(client, order):
+    url = conftest.ORDER_GAME_LIST_URL.format(order_pk=order.pk)
     status, _ = post_json(client, url)
     assert status == 405
 
@@ -193,23 +193,23 @@ def test_add_game_to_order(client, user, order, game):
 
 
 @pytest.mark.django_db
-def test_add_game_to_order_fails_when_method_is_not_allowed(client):
-    url = conftest.ORDER_ADD_GAME_URL.format(order_pk=1)
+def test_add_game_to_order_fails_when_method_is_not_allowed(client, order):
+    url = conftest.ORDER_ADD_GAME_URL.format(order_pk=order.pk)
     status, _ = get_json(client, url)
     assert status == 405
 
 
 @pytest.mark.django_db
-def test_add_game_to_order_fails_when_invalid_json_body(client):
-    url = conftest.ORDER_ADD_GAME_URL.format(order_pk=1)
+def test_add_game_to_order_fails_when_invalid_json_body(client, order):
+    url = conftest.ORDER_ADD_GAME_URL.format(order_pk=order.pk)
     status, response = post_json(client, url, '{')
     assert status == 400
     assert response == {'error': 'Invalid JSON body'}
 
 
 @pytest.mark.django_db
-def test_add_game_to_order_fails_when_missing_required_fields(client):
-    url = conftest.ORDER_ADD_GAME_URL.format(order_pk=1)
+def test_add_game_to_order_fails_when_missing_required_fields(client, order):
+    url = conftest.ORDER_ADD_GAME_URL.format(order_pk=order.pk)
     status, response = post_json(client, url)
     assert status == 400
     assert response == {'error': 'Missing required fields'}
@@ -299,32 +299,33 @@ def test_change_order_status_to_cancelled(client, user):
 
 
 @pytest.mark.django_db
-def test_change_order_status_fails_when_method_is_not_allowed(client):
-    url = conftest.ORDER_STATUS_URL.format(order_pk=1)
+def test_change_order_status_fails_when_method_is_not_allowed(client, order):
+    url = conftest.ORDER_STATUS_URL.format(order_pk=order.pk)
     status, response = get_json(client, url)
     assert status == 405
 
 
 @pytest.mark.django_db
-def test_change_order_status_fails_when_missing_required_fields(client):
-    url = conftest.ORDER_STATUS_URL.format(order_pk=1)
+def test_change_order_status_fails_when_missing_required_fields(client, order):
+    url = conftest.ORDER_STATUS_URL.format(order_pk=order.pk)
     status, response = post_json(client, url)
     assert status == 400
     assert response == {'error': 'Missing required fields'}
 
 
 @pytest.mark.django_db
-def test_change_order_status_fails_when_invalid_token(client):
+def test_change_order_status_fails_when_invalid_token(client, order):
     data = {'status': Order.Status.CONFIRMED}
-    status, response = post_json(client, '/api/orders/1/status/', data, 'invalid-token')
+    url = conftest.ORDER_STATUS_URL.format(order_pk=order.pk)
+    status, response = post_json(client, url, data, 'invalid-token')
     assert status == 400
     assert response == {'error': 'Invalid authentication token'}
 
 
 @pytest.mark.django_db
-def test_change_order_status_fails_when_unregistered_token(client):
+def test_change_order_status_fails_when_unregistered_token(client, order):
     data = {'status': Order.Status.CONFIRMED}
-    url = conftest.ORDER_STATUS_URL.format(order_pk=1)
+    url = conftest.ORDER_STATUS_URL.format(order_pk=order.pk)
     status, response = post_json(client, url, data, str(uuid.uuid4()))
     assert status == 401
     assert response == {'error': 'Unregistered authentication token'}
@@ -352,6 +353,12 @@ def test_change_order_status_fails_when_user_is_not_the_owner_of_requested_order
 @pytest.mark.parametrize('status', [Order.Status.INITIATED, Order.Status.PAID])
 @pytest.mark.django_db
 def test_change_order_status_fails_when_invalid_status(client, user, order, status):
+    """
+    Desde una llamada a la API no es posible cambiar el estado de un pedido
+    a INITIATED o PAID. Si ello se intentara habría que devolver 'Invalid status'
+    ya que estos estados sólo se pueden cambiar desde el propio backend en función
+    de cierta lógica de negocio.
+    """
     data = {'status': status}
     url = conftest.ORDER_STATUS_URL.format(order_pk=order.pk)
     status, response = post_json(client, url, data, user.token.key)
@@ -406,29 +413,29 @@ def test_pay_order(client, user):
 
 
 @pytest.mark.django_db
-def test_pay_order_fails_when_invalid_json_body(client):
-    url = conftest.ORDER_PAY_URL.format(order_pk=1)
+def test_pay_order_fails_when_invalid_json_body(client, order):
+    url = conftest.ORDER_PAY_URL.format(order_pk=order.pk)
     status, response = post_json(client, url, '{')
     assert status == 400
     assert response == {'error': 'Invalid JSON body'}
 
 
 @pytest.mark.django_db
-def test_pay_order_fails_when_invalid_token(client):
+def test_pay_order_fails_when_invalid_token(client, order):
     data = {
         'card-number': '1234-1234-1234-1234',
         'exp-date': '01/2099',
         'cvc': '123',
     }
-    url = conftest.ORDER_PAY_URL.format(order_pk=1)
+    url = conftest.ORDER_PAY_URL.format(order_pk=order.pk)
     status, response = post_json(client, url, data, 'invalid-token')
     assert status == 400
     assert response == {'error': 'Invalid authentication token'}
 
 
 @pytest.mark.django_db
-def test_pay_order_fails_when_missing_required_fields(client):
-    url = conftest.ORDER_PAY_URL.format(order_pk=1)
+def test_pay_order_fails_when_missing_required_fields(client, order):
+    url = conftest.ORDER_PAY_URL.format(order_pk=order.pk)
     status, response = post_json(client, url)
     assert status == 400
     assert response == {'error': 'Missing required fields'}
@@ -505,13 +512,13 @@ def test_pay_order_fails_when_card_has_expired(client, user):
 
 
 @pytest.mark.django_db
-def test_pay_order_fails_when_unregistered_token(client):
+def test_pay_order_fails_when_unregistered_token(client, order):
     data = {
         'card-number': '1234-1234-1234-1234',
         'exp-date': '01/2099',
         'cvc': '123',
     }
-    url = conftest.ORDER_PAY_URL.format(order_pk=1)
+    url = conftest.ORDER_PAY_URL.format(order_pk=order.pk)
     status, response = post_json(client, url, data, str(uuid.uuid4()))
     assert status == 401
     assert response == {'error': 'Unregistered authentication token'}
@@ -545,7 +552,7 @@ def test_pay_order_fails_when_order_does_not_exist(client, user):
 
 
 @pytest.mark.django_db
-def test_pay_order_fails_when_method_is_not_allowed(client):
-    url = conftest.ORDER_PAY_URL.format(order_pk=1)
+def test_pay_order_fails_when_method_is_not_allowed(client, order):
+    url = conftest.ORDER_PAY_URL.format(order_pk=order.pk)
     status, _ = get_json(client, url)
     assert status == 405

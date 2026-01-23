@@ -18,7 +18,7 @@ def test_auth(client, user):
 @pytest.mark.django_db
 def test_auth_fails_when_invalid_json_body(client):
     url = conftest.AUTH_URL
-    status, response = post_json(client, url, '{"token": "}')
+    status, response = post_json(client, url, '{')
     assert status == 400
     assert response == {'error': 'Invalid JSON body'}
 
@@ -26,7 +26,7 @@ def test_auth_fails_when_invalid_json_body(client):
 @pytest.mark.django_db
 def test_auth_fails_when_missing_required_fields(client):
     url = conftest.AUTH_URL
-    status, response = post_json(client, url, {})
+    status, response = post_json(client, url)
     assert status == 400
     assert response == {'error': 'Missing required fields'}
 

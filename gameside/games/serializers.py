@@ -1,6 +1,7 @@
-from shared.serializers import BaseSerializer
 from categories.serializers import CategorySerializer
 from platforms.serializers import PlatformSerializer
+from shared.serializers import BaseSerializer
+
 
 class GameSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
@@ -9,7 +10,7 @@ class GameSerializer(BaseSerializer):
             'title': instance.title,
             'slug': instance.slug,
             'description': instance.description,
-            'cover': instance.cover,
+            'cover': self.build_url(instance.cover.url),
             'price': instance.price,
             'stock': instance.stock,
             'released_at': instance.released_at.isoformat(),

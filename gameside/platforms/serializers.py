@@ -8,5 +8,5 @@ class PlatformSerializer(BaseSerializer):
             'name': instance.name,
             'slug': instance.slug,
             'description': instance.description,
-            'logo': instance.logo,
+            'logo': self.build_url(instance.logo.url),
         }

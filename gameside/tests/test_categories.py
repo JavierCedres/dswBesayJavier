@@ -33,8 +33,8 @@ def test_category_detail(client, category):
 
 
 @pytest.mark.django_db
-def test_category_detail_fails_when_method_is_not_allowed(client):
-    url = conftest.CATEGORY_DETAIL_URL.format(category_slug='test')
+def test_category_detail_fails_when_method_is_not_allowed(client, category):
+    url = conftest.CATEGORY_DETAIL_URL.format(category_slug=category.slug)
     status, _ = post_json(client, url)
     assert status == 405
 

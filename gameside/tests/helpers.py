@@ -48,7 +48,7 @@ def compare_games(rgame, egame) -> None:
     assert rgame['title'] == egame.title
     assert rgame['slug'] == egame.slug
     assert rgame['cover'] == build_url(egame.cover.url)
-    assert rgame['price'] == float(egame.price)
+    assert float(rgame['price']) == float(egame.price)
     assert rgame['stock'] == egame.stock
     assert rgame['released_at'] == egame.released_at.isoformat()
     assert rgame['pegi'] == egame.get_pegi_display()
@@ -89,7 +89,7 @@ def get_json(client, url: str, bearer_token: str = '') -> tuple:
     return response.status_code, response.json()
 
 
-def post_json(client, url: str, data: dict = {}, bearer_token: str = '') -> tuple:
+def post_json(client, url: str, data: dict | str = {}, bearer_token: str = '') -> tuple:
     headers = {'Authorization': f'Bearer {bearer_token}'} if bearer_token else {}
     response = client.post(url, data, content_type='application/json', headers=headers)
     return response.status_code, response.json()

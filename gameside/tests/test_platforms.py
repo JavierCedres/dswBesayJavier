@@ -34,8 +34,8 @@ def test_platform_detail(client, platform):
 
 
 @pytest.mark.django_db
-def test_platform_detail_fails_when_method_is_not_allowed(client):
-    url = conftest.PLATFORM_DETAIL_URL.format(platform_slug='test')
+def test_platform_detail_fails_when_method_is_not_allowed(client, platform):
+    url = conftest.PLATFORM_DETAIL_URL.format(platform_slug=platform.slug)
     status, response = post_json(client, url)
     assert status == 405
     assert response == {'error': 'Method not allowed'}

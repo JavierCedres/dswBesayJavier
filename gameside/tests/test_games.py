@@ -64,8 +64,8 @@ def test_game_detail(client, game):
 
 
 @pytest.mark.django_db
-def test_game_detail_fails_when_method_is_not_allowed(client):
-    url = conftest.GAME_DETAIL_URL.format(game_slug='test')
+def test_game_detail_fails_when_method_is_not_allowed(client, game):
+    url = conftest.GAME_DETAIL_URL.format(game_slug=game.slug)
     status, response = post_json(client, url)
     assert status == 405
     assert response == {'error': 'Method not allowed'}
@@ -96,8 +96,8 @@ def test_review_list(client, game):
 
 
 @pytest.mark.django_db
-def test_review_list_fails_when_method_is_not_allowed(client):
-    url = conftest.REVIEW_LIST_URL.format(game_slug='test')
+def test_review_list_fails_when_method_is_not_allowed(client, game):
+    url = conftest.REVIEW_LIST_URL.format(game_slug=game.slug)
     status, response = post_json(client, url)
     assert status == 405
     assert response == {'error': 'Method not allowed'}
@@ -148,26 +148,26 @@ def test_add_review(client, user, game):
 
 
 @pytest.mark.django_db
-def test_add_review_fails_when_json_body_is_invalid(client):
-    url = conftest.REVIEW_ADD_URL.format(game_slug='test')
+def test_add_review_fails_when_invalid_json_body(client, game):
+    url = conftest.REVIEW_ADD_URL.format(game_slug=game.slug)
     status, response = post_json(client, url, '{')
     assert status == 400
     assert response == {'error': 'Invalid JSON body'}
 
 
 @pytest.mark.django_db
-def test_add_review_fails_when_token_is_invalid(client):
+def test_add_review_fails_when_token_is_invalid(client, game):
     data = {'rating': 1, 'comment': 'This is a test comment'}
-    url = conftest.REVIEW_ADD_URL.format(game_slug='test')
+    url = conftest.REVIEW_ADD_URL.format(game_slug=game.slug)
     status, response = post_json(client, url, data, 'invalid-token')
     assert status == 400
     assert response == {'error': 'Invalid authentication token'}
 
 
 @pytest.mark.django_db
-def test_add_review_fails_when_missing_required_fields(client):
-    url = conftest.REVIEW_ADD_URL.format(game_slug='test')
-    status, response = post_json(client, url, '{}')
+def test_add_review_fails_when_missing_required_fields(client, game):
+    url = conftest.REVIEW_ADD_URL.format(game_slug=game.slug)
+    status, response = post_json(client, url)
     assert status == 400
     assert response == {'error': 'Missing required fields'}
 
@@ -182,9 +182,9 @@ def test_add_review_fails_when_rating_is_out_of_range(client, user, game):
 
 
 @pytest.mark.django_db
-def test_add_review_fails_when_unregistered_token(client):
+def test_add_review_fails_when_unregistered_token(client, game):
     data = {'rating': 1, 'comment': 'This is a test comment'}
-    url = conftest.REVIEW_ADD_URL.format(game_slug='test')
+    url = conftest.REVIEW_ADD_URL.format(game_slug=game.slug)
     status, response = post_json(client, url, data, str(uuid.uuid4()))
     assert status == 401
     assert response == {'error': 'Unregistered authentication token'}
