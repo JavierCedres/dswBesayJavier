@@ -10,7 +10,7 @@ from .serializers import CategorySerializer
 @require_http_methods('GET')
 def category_list(request):
     categories = Category.objects.all()
-    serializer = CategorySerializer(categories)
+    serializer = CategorySerializer(categories, request=request)
     return serializer.json_response()
 
 
@@ -21,5 +21,5 @@ def category_detail(request, category_slug):
         category = Category.objects.get(slug=category_slug)
     except Category.DoesNotExist:
         return JsonResponse({'error': 'Category not found'}, status=404)
-    serializer = CategorySerializer(category)
+    serializer = CategorySerializer(category, request=request)
     return serializer.json_response()

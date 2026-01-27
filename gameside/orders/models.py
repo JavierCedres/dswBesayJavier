@@ -19,3 +19,7 @@ class Order(models.Model):
     games = models.ManyToManyField('games.Game', related_name='orders', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    @property
+    def price(self):
+        return sum(game.price for game in self.games.all())

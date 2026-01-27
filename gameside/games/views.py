@@ -1,6 +1,9 @@
+import json
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from shared.decorators import require_http_methods
+from users.decorators import auth_required
+from shared.decorators import require_http_methods, validate_json_body
 
 from .models import Game, Review
 from .serializers import GameSerializer, ReviewSerializer
@@ -9,25 +12,24 @@ from .serializers import GameSerializer, ReviewSerializer
 @csrf_exempt
 @require_http_methods('GET')
 def game_list(request):
-    category_slug = request.GET.get('category', None)
-    platform_slug = request.GET.get('platform', None)
+    category_slug = request.GET.get("category")
+    platform_slug = request.GET.get("platform")
+    
+    games = Game.objects.all()
 
-    if category_slug and platform_slug:
-        games = Game.objects.filter(category__slug=category_slug, platforms__slug=platform_slug)
-    elif category_slug:
-        games = Game.objects.filter(category__slug=category_slug)
-    elif platform_slug:
-        games = Game.objects.filter(platforms__slug=platform_slug)
-    else:
-        games = Game.objects.all()
+    if category_slug:
+        games = games.filter(category__slug=category_slug)
 
-    serializer = GameSerializer(games, request=request)
+    if platform_slug:
+        games = games.filter(platforms__slug=platform_slug)
+
+    serializer = GameSerializer(games.distinct(), request=request)
     return serializer.json_response()
 
 
 @csrf_exempt
 @require_http_methods('GET')
-def game_detail(request, game_slug: str):
+def game_detail(request, game_slug):
     try:
         game = Game.objects.get(slug=game_slug)
     except Game.DoesNotExist:
@@ -40,7 +42,8 @@ def game_detail(request, game_slug: str):
 @require_http_methods('GET')
 def review_list(request, game_slug):
     try:
-        reviews = Review.objects.filter(game__slug=game_slug)
+        game = Game.objects.get(slug=game_slug)
+        reviews = Review.objects.filter(game=game)
     except Game.DoesNotExist:
         return JsonResponse({'error': 'Game not found'}, status=404)
     serializer = ReviewSerializer(reviews, request=request)
@@ -49,10 +52,35 @@ def review_list(request, game_slug):
 
 @csrf_exempt
 @require_http_methods('GET')
-def review_detail(request, review_pk: str):
+def review_detail(request, review_pk):
     try:
         review = Review.objects.get(pk=review_pk)
-    except Game.DoesNotExist:
+    except Review.DoesNotExist:
         return JsonResponse({'error': 'Review not found'}, status=404)
     serializer = ReviewSerializer(review, request=request)
     return serializer.json_response()
+
+
+@csrf_exempt
+@require_http_methods('POST')
+@validate_json_body(['rating', 'comment'])
+@auth_required
+def add_review(request, game_slug):
+    payload = json.loads(request.body)
+    
+    try:
+        game = Game.objects.get(slug=game_slug)
+    except Game.DoesNotExist:
+        return JsonResponse({'error': 'Game not found'}, status=404)
+    
+    if payload['rating'] < 1 or payload['rating'] > 5:
+        return JsonResponse({'error': 'Rating is out of range'}, status=400)
+    
+    review = Review.objects.create(
+        rating=payload['rating'],
+        comment=payload['comment'],
+        game=game,
+        author=request.user
+    )
+    
+    return JsonResponse({'id': review.pk})
