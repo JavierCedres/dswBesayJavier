@@ -19,10 +19,15 @@ def add_order(request):
 
 @csrf_exempt
 @require_http_methods('GET')
-def order_detail(request, order_id):
-    try:
-        order = Order.objects.get(pk=order_id)
-    except Order.DoesNotExist:
-        return JsonResponse({'error': 'Order not found'}, status=404)
-    serializer = OrderSerializer(order, request=request)
-    return serializer.json_response()
+@auth_required
+def order_detail(request, order_pk):
+    user = request.user
+    if order_pk == user:
+        try:
+            order = Order.objects.get(pk=order_pk)
+        except Order.DoesNotExist:
+            return JsonResponse({'error': 'Order not found'}, status=404)
+        serializer = OrderSerializer(order, request=request)
+        return serializer.json_response()
+    else:
+        return JsonResponse({'error': 'User is not the owner of requested order'}, status=403)
