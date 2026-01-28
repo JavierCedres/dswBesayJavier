@@ -3,7 +3,7 @@ from shared.serializers import BaseSerializer
 from users.serializers import UserSerializer
 
 
-class ReviewSerializer(BaseSerializer):
+class OrderSerializer(BaseSerializer):
     def serialize_instance(self, instance) -> dict:
         return {
             'id': instance.pk,
