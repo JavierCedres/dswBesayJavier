@@ -21,13 +21,14 @@ def add_order(request):
 @require_http_methods('GET')
 @auth_required
 def order_detail(request, order_pk):
-    user = request.user
-    if order_pk == user:
-        try:
-            order = Order.objects.get(pk=order_pk)
-        except Order.DoesNotExist:
-            return JsonResponse({'error': 'Order not found'}, status=404)
-        serializer = OrderSerializer(order, request=request)
-        return serializer.json_response()
-    else:
+    try:
+        order = Order.objects.get(pk=order_pk)
+        print(order.games.all())
+    except Order.DoesNotExist:
+        return JsonResponse({'error': 'Order not found'}, status=404)
+    serializer = OrderSerializer(order, request=request)
+
+    if order.user.pk != request.user.pk:
         return JsonResponse({'error': 'User is not the owner of requested order'}, status=403)
+
+    return serializer.json_response()
