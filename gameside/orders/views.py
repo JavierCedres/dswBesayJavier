@@ -2,7 +2,6 @@ import json
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
 from games.models import Game
 from games.serializers import GameSerializer
 from shared.decorators import require_http_methods, validate_json_body
@@ -55,3 +54,33 @@ def add_game_to_order(request, order):
     game.stock -= 1
     order.games.add(game)
     return JsonResponse({'num-games-in-order': order.games.count()})
+
+
+@csrf_exempt
+@require_http_methods('POST')
+@validate_json_body(['status'])
+@auth_required
+@order_required
+def change_order_status(request, order):
+    payload = json.loads(request.body)
+
+    if payload['status'] == Order.Status.INITIATED or payload['status'] == Order.Status.PAID:
+        return JsonResponse({'error': 'Invalid status'}, status=400)
+
+    if not order.status == Order.Status.INITIATED:
+        return JsonResponse(
+            {'error': 'Orders can only be confirmed/cancelled when initiated'}, status=400
+        )
+
+    if payload['status'] == Order.Status.CANCELLED:
+        for game in order.games.all():
+            game.stock += 1
+
+    order.status = payload['status']
+    order.save()
+
+    for status in Order.Status.choices:
+        if order.status == status[0]:
+            status_name = status[1]
+
+    return JsonResponse({'status': status_name}, status=200)

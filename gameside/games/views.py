@@ -2,8 +2,8 @@ import json
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from users.decorators import auth_required
 from shared.decorators import require_http_methods, validate_json_body
+from users.decorators import auth_required
 
 from .models import Game, Review
 from .serializers import GameSerializer, ReviewSerializer
@@ -12,9 +12,9 @@ from .serializers import GameSerializer, ReviewSerializer
 @csrf_exempt
 @require_http_methods('GET')
 def game_list(request):
-    category_slug = request.GET.get("category")
-    platform_slug = request.GET.get("platform")
-    
+    category_slug = request.GET.get('category')
+    platform_slug = request.GET.get('platform')
+
     games = Game.objects.all()
 
     if category_slug:
@@ -67,20 +67,17 @@ def review_detail(request, review_pk):
 @auth_required
 def add_review(request, game_slug):
     payload = json.loads(request.body)
-    
+
     try:
         game = Game.objects.get(slug=game_slug)
     except Game.DoesNotExist:
         return JsonResponse({'error': 'Game not found'}, status=404)
-    
-    if payload['rating'] < 1 or payload['rating'] > 5:
+
+    if int(payload['rating']) < 1 or int(payload['rating']) > 5:
         return JsonResponse({'error': 'Rating is out of range'}, status=400)
-    
+
     review = Review.objects.create(
-        rating=payload['rating'],
-        comment=payload['comment'],
-        game=game,
-        author=request.user
+        rating=payload['rating'], comment=payload['comment'], game=game, author=request.user
     )
-    
+
     return JsonResponse({'id': review.pk})

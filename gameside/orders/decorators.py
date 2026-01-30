@@ -5,9 +5,9 @@ from django.http import JsonResponse
 from .models import Order
 
 
-def order_required(view_func):
-    @wraps(view_func)
-    def _wrapped_view(request, order_pk, *args, **kwargs):
+def order_required(view):
+    @wraps(view)
+    def inner(request, order_pk, *args, **kwargs):
         try:
             order = Order.objects.get(pk=order_pk)
         except Order.DoesNotExist:
@@ -16,6 +16,6 @@ def order_required(view_func):
         if order.user_id != request.user.pk:
             return JsonResponse({'error': 'User is not the owner of requested order'}, status=403)
 
-        return view_func(request, order, *args, **kwargs)
+        return view(request, order, *args, **kwargs)
 
-    return _wrapped_view
+    return inner
