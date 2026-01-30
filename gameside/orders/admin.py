@@ -4,5 +4,5 @@ from .models import Order
 
 
 @admin.register(Order)
-class OrderAdin(admin.ModelAdmin):
+class OrderAdmin(admin.ModelAdmin):
     list_display = ('user',)

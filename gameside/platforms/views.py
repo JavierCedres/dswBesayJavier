@@ -1,8 +1,5 @@
-import json
-
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from users.decorators import auth_required
 from shared.decorators import require_http_methods
 
 from .models import Platform

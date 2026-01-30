@@ -1,4 +1,6 @@
 import json
+import re
+from datetime import date, datetime
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -79,8 +81,37 @@ def change_order_status(request, order):
     order.status = payload['status']
     order.save()
 
-    for status in Order.Status.choices:
-        if order.status == status[0]:
-            status_name = status[1]
+    return JsonResponse({'status': order.get_status_display()}, status=200)
 
-    return JsonResponse({'status': status_name}, status=200)
+
+@csrf_exempt
+@require_http_methods('POST')
+@validate_json_body(['card-number', 'exp-date', 'cvc'])
+@auth_required
+@order_required
+def pay_order(request, order):
+    CARD_NUMBER_REGEXP = r'^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$'
+    EXP_DATE_REGEXP = r'^(0[1-9]|1[0-2])[/]\d{4}$'
+    CVC_REGEXP = r'[0-9]{3}'
+
+    payload = json.loads(request.body)
+
+    if not order.status == Order.Status.CONFIRMED:
+        return JsonResponse({'error': 'Orders can only be paid when confirmed'}, status=400)
+
+    if not re.search(CARD_NUMBER_REGEXP, payload['card-number']):
+        return JsonResponse({'error': 'Invalid card number'}, status=400)
+
+    if not re.search(EXP_DATE_REGEXP, payload['exp-date']):
+        return JsonResponse({'error': 'Invalid expiration date'}, status=400)
+
+    if not re.search(CVC_REGEXP, payload['cvc']):
+        return JsonResponse({'error': 'Invalid CVC'}, status=400)
+
+    if date.today().replace(day=1) > datetime.strptime(payload['exp-date'], '%m/%Y').date():
+        return JsonResponse({'error': 'Card expired'}, status=400)
+
+    order.status = Order.Status.PAID
+    order.save()
+
+    return JsonResponse({'status': order.get_status_display(), 'key': order.key})
